@@ -1,19 +1,11 @@
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { TrendingUp } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { useTranslation } from '@/i18n/useTranslation'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
 export function Header() {
   const { t } = useTranslation()
-
-  const mobileNav = [
-    { to: '/', label: t('nav.home'), end: true },
-    { to: '/simulador', label: t('nav.simulator'), end: false },
-    { to: '/comparar', label: t('nav.compare'), end: false },
-    { to: '/historico', label: t('nav.history'), end: false },
-  ]
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/15 bg-background/70 backdrop-blur-xl">
@@ -33,25 +25,6 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-1">
-          <nav className="flex items-center gap-1 md:hidden">
-            {mobileNav.map(({ to, label, end }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={end}
-                className={({ isActive }) =>
-                  cn(
-                    'rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors',
-                    isActive
-                      ? 'bg-primary/15 text-primary'
-                      : 'text-muted-foreground hover:text-foreground',
-                  )
-                }
-              >
-                {label}
-              </NavLink>
-            ))}
-          </nav>
           <LanguageSwitcher />
           <ThemeToggle />
         </div>

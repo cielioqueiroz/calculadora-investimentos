@@ -36,15 +36,15 @@ export function Home() {
   ]
 
   return (
-    <div className="space-y-12">
-      <section className="relative overflow-hidden rounded-2xl border border-border/15 bg-card bg-hero-glow p-8 shadow-soft-lg md:p-12">
+    <div className="space-y-10 sm:space-y-12">
+      <section className="relative overflow-hidden rounded-2xl border border-border/15 bg-card bg-hero-glow p-6 shadow-soft-lg sm:p-8 md:p-12">
         <Guilloche className="opacity-[0.05]" />
         <div className="relative">
           <Badge variant="default" className="mb-4">
             <Sparkles className="mr-1 h-3 w-3" />
             {t('home.badge')}
           </Badge>
-          <h1 className="max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-6xl">
+          <h1 className="max-w-2xl font-display text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-6xl">
             {t('home.hero.title')}
           </h1>
           <p className="mt-4 max-w-xl text-muted-foreground">

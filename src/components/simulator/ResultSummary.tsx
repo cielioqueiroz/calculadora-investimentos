@@ -53,12 +53,12 @@ export function ResultSummary({ result }: ResultSummaryProps) {
     <div className="space-y-4">
       <Card className="relative overflow-hidden border-primary/30">
         <Guilloche className="opacity-[0.06]" />
-        <CardContent className="relative flex items-end justify-between gap-4 p-6">
-          <div className="space-y-1">
+        <CardContent className="relative flex items-end justify-between gap-4 p-5 sm:p-6">
+          <div className="min-w-0 space-y-1">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               {highlight.label}
             </p>
-            <p className="font-display text-4xl font-semibold tabular-nums text-primary md:text-5xl dark:bg-gold-metal dark:bg-clip-text dark:text-transparent">
+            <p className="font-display text-3xl font-semibold tabular-nums text-primary sm:text-4xl md:text-5xl dark:bg-gold-metal dark:bg-clip-text dark:text-transparent">
               {highlight.value}
             </p>
           </div>

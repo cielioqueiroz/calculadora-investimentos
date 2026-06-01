@@ -5,7 +5,7 @@ import { Footer } from './Footer'
 
 export function AppLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="relative z-10 flex min-h-screen flex-col bg-background">
       <Header />
       <div className="mx-auto flex w-full max-w-[1400px] flex-1">
         <Sidebar />

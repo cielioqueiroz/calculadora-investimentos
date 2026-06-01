@@ -58,7 +58,7 @@ export function ResultSummary({ result }: ResultSummaryProps) {
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               {highlight.label}
             </p>
-            <p className="bg-gold-metal bg-clip-text font-display text-4xl font-semibold tabular-nums text-transparent md:text-5xl">
+            <p className="font-display text-4xl font-semibold tabular-nums text-primary md:text-5xl dark:bg-gold-metal dark:bg-clip-text dark:text-transparent">
               {highlight.value}
             </p>
           </div>

@@ -40,12 +40,12 @@ export function GrowthChart({ data }: GrowthChartProps) {
             >
               <defs>
                 <linearGradient id="fillBalance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(41 54% 54%)" stopOpacity={0.45} />
-                  <stop offset="95%" stopColor="hsl(41 54% 54%)" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.45} />
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="fillInvested" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(156 50% 49%)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(156 50% 49%)" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(var(--success))" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(var(--success))" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -86,14 +86,14 @@ export function GrowthChart({ data }: GrowthChartProps) {
               <Area
                 type="monotone"
                 dataKey="invested"
-                stroke="hsl(156 50% 49%)"
+                stroke="hsl(var(--success))"
                 strokeWidth={2}
                 fill="url(#fillInvested)"
               />
               <Area
                 type="monotone"
                 dataKey="grossBalance"
-                stroke="hsl(41 54% 54%)"
+                stroke="hsl(var(--primary))"
                 strokeWidth={2}
                 fill="url(#fillBalance)"
               />

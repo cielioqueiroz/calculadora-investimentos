@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Geist Variable"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Fraunces Variable"', 'ui-serif', 'Georgia', 'serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -56,6 +60,15 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      backgroundImage: {
+        'gold-metal': 'linear-gradient(135deg, hsl(42 70% 69%) 0%, hsl(41 54% 54%) 55%, hsl(38 56% 38%) 100%)',
+        'hero-glow': 'radial-gradient(120% 120% at 80% -10%, hsl(41 54% 54% / 0.18) 0%, transparent 55%)',
+      },
+      boxShadow: {
+        soft: '0 1px 2px hsl(0 0% 0% / 0.04), 0 8px 24px -8px hsl(0 0% 0% / 0.18)',
+        'soft-lg': '0 2px 4px hsl(0 0% 0% / 0.06), 0 24px 48px -12px hsl(0 0% 0% / 0.30)',
+        gold: '0 8px 24px -6px hsl(41 54% 40% / 0.35)',
       },
       keyframes: {
         'accordion-down': {

@@ -79,7 +79,7 @@ export function ComparisonControls() {
                     'flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors',
                     active
                       ? 'border-primary bg-primary/15 text-primary'
-                      : 'border-border text-muted-foreground hover:text-foreground',
+                      : 'border-border/15 text-muted-foreground hover:text-foreground',
                   )}
                 >
                   <span

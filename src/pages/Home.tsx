@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { INVESTMENT_TYPES } from '@/constants/investments'
 import { useTranslation } from '@/i18n/useTranslation'
 import type { TranslationKey } from '@/i18n/translations'
+import { Guilloche } from '@/components/shared/Guilloche'
 
 export function Home() {
   const { t } = useTranslation()
@@ -36,27 +37,30 @@ export function Home() {
 
   return (
     <div className="space-y-12">
-      <section className="overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card to-background p-8 md:p-12">
-        <Badge variant="default" className="mb-4">
-          <Sparkles className="mr-1 h-3 w-3" />
-          {t('home.badge')}
-        </Badge>
-        <h1 className="max-w-2xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
-          {t('home.hero.title')}
-        </h1>
-        <p className="mt-3 max-w-xl text-muted-foreground">
-          {t('home.hero.subtitle')}
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild size="lg">
-            <Link to="/simulador">
-              {t('home.hero.ctaPrimary')}
-              <ArrowRight />
-            </Link>
-          </Button>
-          <Button asChild size="lg" variant="outline">
-            <Link to="/comparar">{t('home.hero.ctaSecondary')}</Link>
-          </Button>
+      <section className="relative overflow-hidden rounded-2xl border border-border/15 bg-card bg-hero-glow p-8 shadow-soft-lg md:p-12">
+        <Guilloche className="opacity-[0.05]" />
+        <div className="relative">
+          <Badge variant="default" className="mb-4">
+            <Sparkles className="mr-1 h-3 w-3" />
+            {t('home.badge')}
+          </Badge>
+          <h1 className="max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-6xl">
+            {t('home.hero.title')}
+          </h1>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            {t('home.hero.subtitle')}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link to="/simulador">
+                {t('home.hero.ctaPrimary')}
+                <ArrowRight />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/comparar">{t('home.hero.ctaSecondary')}</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -76,7 +80,7 @@ export function Home() {
 
       <section className="space-y-4">
         <div className="flex items-end justify-between">
-          <h2 className="text-xl font-semibold text-foreground">
+          <h2 className="font-display text-2xl font-semibold text-foreground">
             {t('home.types.title')}
           </h2>
           <Button asChild variant="link" className="text-primary">
@@ -110,15 +114,15 @@ export function Home() {
                   {t(`investment.${type.id}.desc` as TranslationKey)}
                 </p>
                 <div className="flex flex-wrap gap-2 pt-1 text-xs text-muted-foreground">
-                  <span className="rounded bg-background/60 px-2 py-1">
+                  <span className="rounded bg-secondary px-2 py-1">
                     {t(`category.${type.category}` as TranslationKey)}
                   </span>
-                  <span className="rounded bg-background/60 px-2 py-1">
+                  <span className="rounded bg-secondary px-2 py-1">
                     {t('home.card.risk', {
                       risk: t(`risk.${type.risk}` as TranslationKey),
                     })}
                   </span>
-                  <span className="rounded bg-background/60 px-2 py-1">
+                  <span className="rounded bg-secondary px-2 py-1">
                     {t('home.card.liquidity', {
                       value: t(`liquidity.${type.liquidity}` as TranslationKey),
                     })}

@@ -1,8 +1,15 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="14" fill="#0A0E27" />
-  <rect x="13" y="36" width="8" height="15" rx="2" fill="#818CF8" />
-  <rect x="28" y="29" width="8" height="22" rx="2" fill="#34D399" />
-  <rect x="43" y="19" width="8" height="32" rx="2" fill="#FFD700" />
-  <path d="M14 31L28 23L38 27L51 14" stroke="#FFD700" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M43 13H51V21" stroke="#FFD700" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8C77A" />
+      <stop offset="0.55" stop-color="#C9A24B" />
+      <stop offset="1" stop-color="#A8842F" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0B0C0E" />
+  <rect x="13" y="36" width="8" height="15" rx="2" fill="url(#gold)" opacity="0.4" />
+  <rect x="28" y="29" width="8" height="22" rx="2" fill="url(#gold)" opacity="0.7" />
+  <rect x="43" y="19" width="8" height="32" rx="2" fill="url(#gold)" />
+  <path d="M14 31L28 23L38 27L51 14" stroke="url(#gold)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M43 13H51V21" stroke="url(#gold)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

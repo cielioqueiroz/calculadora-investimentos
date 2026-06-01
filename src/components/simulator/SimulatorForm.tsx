@@ -58,7 +58,7 @@ export function SimulatorForm() {
         </div>
 
         {selectedType && (
-          <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-background/50 p-3">
+          <div className="flex flex-wrap items-center gap-2 rounded-md border border-border/15 bg-background/50 p-3">
             <Badge variant="default">
               {t('simulator.badge.perYear', {
                 rate: formatPercent(annualRate),
@@ -128,7 +128,7 @@ export function SimulatorForm() {
                 key={preset}
                 type="button"
                 onClick={() => setParams({ months: preset })}
-                className="rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                className="rounded-md border border-border/15 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary hover:text-primary"
               >
                 {preset >= 12
                   ? `${preset / 12}${t('preset.yearSuffix')}`

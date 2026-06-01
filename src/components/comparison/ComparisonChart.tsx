@@ -84,7 +84,7 @@ export function ComparisonChart({ rows }: ComparisonChartProps) {
                   dataKey="netBalance"
                   position="top"
                   formatter={(value) => compactCurrency(Number(value))}
-                  fill="hsl(214 32% 91%)"
+                  fill="hsl(var(--muted-foreground))"
                   fontSize={11}
                 />
               </Bar>

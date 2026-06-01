@@ -19,7 +19,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'low',
     liquidity: 'daily',
     minInvestment: 0,
-    color: '#22D3EE',
+    color: '#5BA8A0',
   },
   {
     id: 'cdb',
@@ -33,7 +33,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'low',
     liquidity: 'maturity',
     minInvestment: 100,
-    color: '#FFD700',
+    color: '#C9A24B',
   },
   {
     id: 'lci-lca',
@@ -47,7 +47,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'low',
     liquidity: 'maturity',
     minInvestment: 1000,
-    color: '#34D399',
+    color: '#3FB984',
   },
   {
     id: 'tesouro-selic',
@@ -61,7 +61,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'low',
     liquidity: 'daily',
     minInvestment: 50,
-    color: '#818CF8',
+    color: '#6E84B8',
   },
   {
     id: 'tesouro-prefixado',
@@ -75,7 +75,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'medium',
     liquidity: 'maturity',
     minInvestment: 50,
-    color: '#F472B6',
+    color: '#B5728C',
   },
   {
     id: 'tesouro-ipca',
@@ -89,7 +89,7 @@ export const INVESTMENT_TYPES: InvestmentType[] = [
     risk: 'medium',
     liquidity: 'maturity',
     minInvestment: 50,
-    color: '#FB923C',
+    color: '#C77B4A',
   },
 ]
 

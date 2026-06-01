@@ -14,7 +14,7 @@ export function Sidebar() {
   ]
 
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-border bg-card/40 md:block">
+    <aside className="hidden w-64 shrink-0 border-r border-border/15 bg-card/30 md:block">
       <nav className="sticky top-16 flex flex-col gap-1 p-4">
         {navItems.map(({ to, label, icon: Icon, end }) => (
           <NavLink
@@ -23,10 +23,11 @@ export function Sidebar() {
             end={end}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
+                'relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
+                'before:absolute before:left-0 before:top-1/2 before:h-0 before:w-0.5 before:-translate-y-1/2 before:rounded-full before:bg-primary before:transition-all',
                 isActive
-                  ? 'bg-primary/15 text-primary'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+                  ? 'text-primary before:h-5'
+                  : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground',
               )
             }
           >

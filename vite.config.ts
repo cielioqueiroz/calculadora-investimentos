@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from 'node:url'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  base: '/calculadora-investimentos/',
   plugins: [react()],
   resolve: {
     alias: {

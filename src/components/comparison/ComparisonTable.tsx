@@ -24,7 +24,7 @@ export function ComparisonTable({ rows }: ComparisonTableProps) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr className="border-b border-border/15 text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-6 py-3 font-medium">
                   {t('comparison.table.investment')}
                 </th>
@@ -48,7 +48,7 @@ export function ComparisonTable({ rows }: ComparisonTableProps) {
                 return (
                   <tr
                     key={row.type.id}
-                    className="border-b border-border/60 last:border-0"
+                    className="border-b border-border/15 last:border-0"
                   >
                     <td className="px-6 py-3.5">
                       <div className="flex items-center gap-2.5">
@@ -66,18 +66,18 @@ export function ComparisonTable({ rows }: ComparisonTableProps) {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-3.5 text-right text-muted-foreground">
+                    <td className="px-6 py-3.5 text-right tabular-nums text-muted-foreground">
                       {formatPercent(row.result.effectiveAnnualRate)}
                     </td>
-                    <td className="px-6 py-3.5 text-right text-muted-foreground">
+                    <td className="px-6 py-3.5 text-right tabular-nums text-muted-foreground">
                       {formatCurrency(row.result.grossBalance)}
                     </td>
-                    <td className="px-6 py-3.5 text-right text-destructive">
+                    <td className="px-6 py-3.5 text-right tabular-nums text-destructive">
                       {row.result.taxAmount > 0
                         ? `- ${formatCurrency(row.result.taxAmount)}`
                         : t('comparison.table.exempt')}
                     </td>
-                    <td className="px-6 py-3.5 text-right font-semibold text-primary">
+                    <td className="px-6 py-3.5 text-right tabular-nums font-semibold text-primary">
                       {formatCurrency(row.result.netBalance)}
                     </td>
                   </tr>

@@ -40,12 +40,12 @@ export function GrowthChart({ data }: GrowthChartProps) {
             >
               <defs>
                 <linearGradient id="fillBalance" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#FFD700" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#FFD700" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(41 54% 54%)" stopOpacity={0.45} />
+                  <stop offset="95%" stopColor="hsl(41 54% 54%)" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="fillInvested" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#818CF8" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#818CF8" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(156 50% 49%)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(156 50% 49%)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
@@ -86,14 +86,14 @@ export function GrowthChart({ data }: GrowthChartProps) {
               <Area
                 type="monotone"
                 dataKey="invested"
-                stroke="#818CF8"
+                stroke="hsl(156 50% 49%)"
                 strokeWidth={2}
                 fill="url(#fillInvested)"
               />
               <Area
                 type="monotone"
                 dataKey="grossBalance"
-                stroke="#FFD700"
+                stroke="hsl(41 54% 54%)"
                 strokeWidth={2}
                 fill="url(#fillBalance)"
               />
@@ -106,7 +106,7 @@ export function GrowthChart({ data }: GrowthChartProps) {
             {t('chart.growth.gross')}
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#818CF8]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-success" />
             {t('chart.growth.invested')}
           </span>
         </div>

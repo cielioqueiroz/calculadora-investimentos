@@ -1,8 +1,22 @@
 # InvestCalc
 
+![InvestCalc](public/og-image.png)
+
 Calculadora de investimentos brasileira, com simulador de juros compostos, comparador, dados de mercado em tempo real e histórico. Tudo roda no navegador, sem backend, e pode ser hospedado de graça no GitHub Pages.
 
+**Acesse:** [cielioqueiroz.github.io/calculadora-investimentos](https://cielioqueiroz.github.io/calculadora-investimentos/)
+
 > As simulações são estimativas e não constituem recomendação de investimento.
+
+## Capturas
+
+| Início | Mercado em tempo real |
+| ------ | --------------------- |
+| ![Home](screenshots/home_desktop.png) | ![Mercado](screenshots/mercado_desktop.png) |
+
+| Simulador | Mobile |
+| --------- | ------ |
+| ![Simulador](screenshots/simulador_desktop.png) | ![Mobile](screenshots/mercado_mobile.png) |
 
 ## Destaques
 

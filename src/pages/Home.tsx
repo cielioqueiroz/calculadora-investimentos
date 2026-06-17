@@ -13,6 +13,7 @@ import { INVESTMENT_TYPES } from '@/constants/investments'
 import { useTranslation } from '@/i18n/useTranslation'
 import type { TranslationKey } from '@/i18n/translations'
 import { Guilloche } from '@/components/shared/Guilloche'
+import { MarketSummary } from '@/components/market/MarketSummary'
 
 export function Home() {
   const { t } = useTranslation()
@@ -63,6 +64,8 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      <MarketSummary />
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {features.map(({ icon: Icon, title, description }) => (

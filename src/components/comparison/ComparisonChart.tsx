@@ -71,6 +71,12 @@ export function ComparisonChart({ rows }: ComparisonChartProps) {
                   borderRadius: 8,
                   color: 'hsl(var(--popover-foreground))',
                 }}
+                labelStyle={{
+                  color: 'hsl(var(--popover-foreground))',
+                  fontWeight: 600,
+                  marginBottom: 4,
+                }}
+                itemStyle={{ color: 'hsl(var(--popover-foreground))' }}
                 formatter={(value) => [
                   formatCurrency(Number(value)),
                   t('comparison.chart.net'),

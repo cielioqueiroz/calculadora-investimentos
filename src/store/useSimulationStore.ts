@@ -5,19 +5,33 @@ import type {
   SimulationInput,
   SimulationResult,
 } from '@/types'
-import { DEFAULT_MARKET_RATES, getInvestmentType } from '@/constants/investments'
-import { resolveAnnualRate, simulate } from '@/lib/calculations'
+import {
+  DEFAULT_MARKET_RATES,
+  DEFAULT_INFLATION,
+  getInvestmentType,
+} from '@/constants/investments'
+import {
+  resolveAnnualRate,
+  simulate,
+  solveMonthlyContribution,
+} from '@/lib/calculations'
 import {
   deleteSimulation,
   getSimulations,
   saveSimulation,
 } from '@/lib/localStorage'
 
+export type SimulationMode = 'project' | 'goal'
+
 export interface SimulationParams {
   investmentTypeId: string
   initialAmount: number
   monthlyContribution: number
   months: number
+  customRate: number
+  inflationRate: number
+  mode: SimulationMode
+  targetAmount: number
 }
 
 const DEFAULT_PARAMS: SimulationParams = {
@@ -25,6 +39,10 @@ const DEFAULT_PARAMS: SimulationParams = {
   initialAmount: 1000,
   monthlyContribution: 300,
   months: 24,
+  customRate: 12,
+  inflationRate: DEFAULT_INFLATION,
+  mode: 'project',
+  targetAmount: 100000,
 }
 
 interface SimulationState {
@@ -35,6 +53,9 @@ interface SimulationState {
   comparisonIds: string[]
   setMarketRates: (rates: Partial<MarketRates>) => void
   setParams: (params: Partial<SimulationParams>) => void
+  setCustomRate: (rate: number) => void
+  setMode: (mode: SimulationMode) => void
+  setTarget: (value: number) => void
   runSimulation: () => SimulationResult | null
   persistCurrent: (name: string) => void
   loadHistory: () => void
@@ -43,22 +64,40 @@ interface SimulationState {
   toggleComparison: (investmentTypeId: string) => void
 }
 
+interface BuiltInput {
+  input: SimulationInput
+  taxExempt: boolean
+  inflationRate: number
+  flatTaxRate?: number
+}
+
 function buildInput(
   params: SimulationParams,
   rates: MarketRates,
-): { input: SimulationInput; taxExempt: boolean } | null {
+): BuiltInput | null {
   const type = getInvestmentType(params.investmentTypeId)
   if (!type) return null
-  const annualRate = resolveAnnualRate(type, rates)
+  const annualRate = resolveAnnualRate(type, rates, params.customRate)
+  const monthlyContribution =
+    params.mode === 'goal'
+      ? solveMonthlyContribution(
+          params.targetAmount,
+          params.initialAmount,
+          params.months,
+          annualRate,
+        )
+      : params.monthlyContribution
   return {
     input: {
       investmentTypeId: params.investmentTypeId,
       initialAmount: params.initialAmount,
-      monthlyContribution: params.monthlyContribution,
+      monthlyContribution,
       months: params.months,
       annualRate,
     },
     taxExempt: type.taxExempt,
+    inflationRate: params.inflationRate,
+    flatTaxRate: type.flatTaxRate,
   }
 }
 
@@ -75,11 +114,24 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   setParams: (params) =>
     set((state) => ({ params: { ...state.params, ...params } })),
 
+  setCustomRate: (customRate) =>
+    set((state) => ({ params: { ...state.params, customRate } })),
+
+  setMode: (mode) => set((state) => ({ params: { ...state.params, mode } })),
+
+  setTarget: (targetAmount) =>
+    set((state) => ({ params: { ...state.params, targetAmount } })),
+
   runSimulation: () => {
     const { params, marketRates } = get()
     const built = buildInput(params, marketRates)
     if (!built) return null
-    const result = simulate(built.input, built.taxExempt)
+    const result = simulate(
+      built.input,
+      built.taxExempt,
+      built.inflationRate,
+      built.flatTaxRate,
+    )
     set({ result })
     return result
   },
@@ -88,7 +140,12 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     const { params, marketRates } = get()
     const built = buildInput(params, marketRates)
     if (!built) return
-    const result = simulate(built.input, built.taxExempt)
+    const result = simulate(
+      built.input,
+      built.taxExempt,
+      built.inflationRate,
+      built.flatTaxRate,
+    )
     const simulation: SavedSimulation = {
       id: crypto.randomUUID(),
       name: name.trim(),
@@ -108,15 +165,19 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   },
 
   loadFromHistory: (simulation) =>
-    set({
+    set((state) => ({
       params: {
+        ...state.params,
         investmentTypeId: simulation.input.investmentTypeId,
         initialAmount: simulation.input.initialAmount,
         monthlyContribution: simulation.input.monthlyContribution,
         months: simulation.input.months,
+        customRate: simulation.input.annualRate,
+        inflationRate: simulation.result.inflationRate ?? state.params.inflationRate,
+        mode: 'project',
       },
       result: simulation.result,
-    }),
+    })),
 
   toggleComparison: (investmentTypeId) =>
     set((state) => ({

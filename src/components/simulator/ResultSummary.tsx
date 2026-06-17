@@ -61,6 +61,17 @@ export function ResultSummary({ result }: ResultSummaryProps) {
             <p className="font-display text-3xl font-semibold tabular-nums text-primary sm:text-4xl md:text-5xl dark:bg-gold-metal dark:bg-clip-text dark:text-transparent">
               {highlight.value}
             </p>
+            {result.inflationRate > 0 && (
+              <p className="pt-1 text-sm text-muted-foreground">
+                {t('result.realBalance')}:{' '}
+                <span className="font-medium tabular-nums text-foreground">
+                  {formatCurrency(result.realNetBalance)}
+                </span>{' '}
+                <span className="text-xs">
+                  ({t('result.realHint', { rate: formatPercent(result.inflationRate) })})
+                </span>
+              </p>
+            )}
           </div>
           <HighlightIcon className="h-8 w-8 shrink-0 text-primary" />
         </CardContent>

@@ -1,7 +1,20 @@
 import { z } from 'zod'
 import type { Quote } from '../types'
 
-const TICKERS = ['^BVSP', 'PETR4', 'VALE3', 'ITUB4', 'BBDC4', 'ABEV3', 'B3SA3', 'WEGE3']
+const TICKERS = [
+  '^BVSP',
+  'PETR4',
+  'VALE3',
+  'ITUB4',
+  'BBDC4',
+  'ABEV3',
+  'B3SA3',
+  'WEGE3',
+  'BBAS3',
+  'ITSA4',
+  'MGLU3',
+  'PETR3',
+]
 
 const schema = z.object({
   results: z.array(

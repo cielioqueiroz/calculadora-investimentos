@@ -22,6 +22,12 @@ export const SNAPSHOTS: Record<MarketSource, Quote[]> = {
     { symbol: 'ITUB4', name: 'Itaú', price: 34.8, currency: 'BRL', changePercent: 0.4 },
     { symbol: 'BBDC4', name: 'Bradesco', price: 14.9, currency: 'BRL', changePercent: -0.3 },
     { symbol: 'ABEV3', name: 'Ambev', price: 12.6, currency: 'BRL', changePercent: 0.2 },
+    { symbol: 'B3SA3', name: 'B3', price: 11.8, currency: 'BRL', changePercent: 0.9 },
+    { symbol: 'WEGE3', name: 'WEG', price: 52.3, currency: 'BRL', changePercent: 1.4 },
+    { symbol: 'BBAS3', name: 'Banco do Brasil', price: 27.1, currency: 'BRL', changePercent: -0.5 },
+    { symbol: 'ITSA4', name: 'Itaúsa', price: 10.4, currency: 'BRL', changePercent: 0.3 },
+    { symbol: 'MGLU3', name: 'Magazine Luiza', price: 9.7, currency: 'BRL', changePercent: -1.2 },
+    { symbol: 'PETR3', name: 'Petrobras ON', price: 41.5, currency: 'BRL', changePercent: 0.8 },
   ],
 }
 

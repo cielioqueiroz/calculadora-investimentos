@@ -101,7 +101,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .animate-marquee {
+    .animate-marquee,
+    .animate-fade-in,
+    .animate-pulse {
       animation: none;
     }
   }

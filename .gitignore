@@ -13,6 +13,11 @@ dist-ssr
 coverage
 *.local
 
+# Environment
+.env
+.env.*
+!.env.example
+
 # Claude Code
 .claude
 

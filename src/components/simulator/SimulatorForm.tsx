@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { INVESTMENT_TYPES, getInvestmentType } from '@/constants/investments'
 import { resolveAnnualRate } from '@/lib/calculations'
-import { formatPercent } from '@/lib/utils'
+import { cn, formatPercent } from '@/lib/utils'
 import { useSimulationStore } from '@/store/useSimulationStore'
 import { useTranslation } from '@/i18n/useTranslation'
 import type { TranslationKey } from '@/i18n/translations'
@@ -23,13 +23,19 @@ export function SimulatorForm() {
   const params = useSimulationStore((s) => s.params)
   const marketRates = useSimulationStore((s) => s.marketRates)
   const setParams = useSimulationStore((s) => s.setParams)
+  const setCustomRate = useSimulationStore((s) => s.setCustomRate)
+  const setMode = useSimulationStore((s) => s.setMode)
+  const setTarget = useSimulationStore((s) => s.setTarget)
   const { t } = useTranslation()
 
   const selectedType = getInvestmentType(params.investmentTypeId)
 
   const annualRate = useMemo(
-    () => (selectedType ? resolveAnnualRate(selectedType, marketRates) : 0),
-    [selectedType, marketRates],
+    () =>
+      selectedType
+        ? resolveAnnualRate(selectedType, marketRates, params.customRate)
+        : 0,
+    [selectedType, marketRates, params.customRate],
   )
 
   return (
@@ -38,6 +44,26 @@ export function SimulatorForm() {
         <CardTitle>{t('simulator.form.title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
+        <div className="grid grid-cols-2 gap-2 rounded-md bg-secondary p-1">
+          {(['project', 'goal'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => setMode(mode)}
+              className={cn(
+                'rounded px-3 py-1.5 text-sm font-medium transition-colors',
+                params.mode === mode
+                  ? 'bg-card text-foreground shadow-soft'
+                  : 'text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {mode === 'project'
+                ? t('simulator.mode.project')
+                : t('simulator.mode.goal')}
+            </button>
+          ))}
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="investment-type">{t('simulator.form.type')}</Label>
           <Select
@@ -78,6 +104,22 @@ export function SimulatorForm() {
           </div>
         )}
 
+        {selectedType?.rateBasis === 'custom' && (
+          <div className="space-y-2">
+            <Label htmlFor="custom-rate">{t('simulator.form.expectedRate')}</Label>
+            <Input
+              id="custom-rate"
+              type="number"
+              step={0.5}
+              value={params.customRate}
+              onChange={(e) => setCustomRate(Number(e.target.value))}
+            />
+            <p className="text-xs text-destructive">
+              {t('simulator.form.volatilityWarning')}
+            </p>
+          </div>
+        )}
+
         <div className="space-y-2">
           <Label htmlFor="initial-amount">{t('simulator.form.initial')}</Label>
           <Input
@@ -92,21 +134,35 @@ export function SimulatorForm() {
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="monthly">{t('simulator.form.monthly')}</Label>
-          <Input
-            id="monthly"
-            type="number"
-            min={0}
-            step={50}
-            value={params.monthlyContribution}
-            onChange={(e) =>
-              setParams({
-                monthlyContribution: Math.max(0, Number(e.target.value)),
-              })
-            }
-          />
-        </div>
+        {params.mode === 'project' ? (
+          <div className="space-y-2">
+            <Label htmlFor="monthly">{t('simulator.form.monthly')}</Label>
+            <Input
+              id="monthly"
+              type="number"
+              min={0}
+              step={50}
+              value={params.monthlyContribution}
+              onChange={(e) =>
+                setParams({
+                  monthlyContribution: Math.max(0, Number(e.target.value)),
+                })
+              }
+            />
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <Label htmlFor="target">{t('simulator.form.target')}</Label>
+            <Input
+              id="target"
+              type="number"
+              min={0}
+              step={1000}
+              value={params.targetAmount}
+              onChange={(e) => setTarget(Math.max(0, Number(e.target.value)))}
+            />
+          </div>
+        )}
 
         <div className="space-y-2">
           <Label htmlFor="months">{t('simulator.form.period')}</Label>
@@ -136,6 +192,20 @@ export function SimulatorForm() {
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="inflation">{t('simulator.form.inflation')}</Label>
+          <Input
+            id="inflation"
+            type="number"
+            min={0}
+            step={0.1}
+            value={params.inflationRate}
+            onChange={(e) =>
+              setParams({ inflationRate: Math.max(0, Number(e.target.value)) })
+            }
+          />
         </div>
       </CardContent>
     </Card>

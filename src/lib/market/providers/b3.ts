@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { Quote } from '../types'
+import { getBrapiToken } from '../token'
 
 const TICKERS = [
   '^BVSP',
@@ -40,7 +41,7 @@ export function mapBrapi(raw: unknown): Quote[] {
 }
 
 export async function fetchB3(signal?: AbortSignal): Promise<Quote[]> {
-  const token = import.meta.env.VITE_BRAPI_TOKEN
+  const token = getBrapiToken()
   if (!token) throw new Error('brapi token absent')
   const url = `https://brapi.dev/api/quote/${TICKERS.join(',')}?token=${token}`
   const res = await fetch(url, { signal })

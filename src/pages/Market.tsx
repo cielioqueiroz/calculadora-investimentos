@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { MarketSection } from '@/components/market/MarketSection'
+import { B3LiveGate } from '@/components/market/B3LiveGate'
 import { useSimulationStore } from '@/store/useSimulationStore'
 import { useTranslation } from '@/i18n/useTranslation'
 
@@ -9,6 +11,7 @@ export function Market() {
   const navigate = useNavigate()
   const setParams = useSimulationStore((s) => s.setParams)
   const setMode = useSimulationStore((s) => s.setMode)
+  const [b3Key, setB3Key] = useState(0)
 
   function simulateCrypto() {
     setMode('project')
@@ -25,7 +28,10 @@ export function Market() {
         title={t('market.crypto')}
         onSimulate={simulateCrypto}
       />
-      <MarketSection source="b3" title={t('market.b3')} />
+      <div className="space-y-3">
+        <B3LiveGate onActivate={() => setB3Key((k) => k + 1)} />
+        <MarketSection key={b3Key} source="b3" title={t('market.b3')} />
+      </div>
     </div>
   )
 }

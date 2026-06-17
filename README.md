@@ -46,11 +46,10 @@ O ticker da B3 e a página `/mercado` consomem APIs públicas direto do navegado
 | [AwesomeAPI](https://docs.awesomeapi.com.br/) | Câmbio e economias | Não |
 | [brapi.dev](https://brapi.dev) | Ações B3 | Opcional |
 
-Para cotações ao vivo da B3, copie `.env.example` para `.env` e preencha o token:
+As ações da B3 (brapi.dev) exigem um token gratuito. Há duas formas de informá-lo:
 
-```bash
-VITE_BRAPI_TOKEN=seu_token_aqui
-```
+- **Na interface**: na página `/mercado`, cole o token no campo "Ativar ao vivo". Ele fica salvo no navegador (localStorage) e funciona inclusive no site publicado, sem rebuild.
+- **No build**: copie `.env.example` para `.env` e preencha `VITE_BRAPI_TOKEN=seu_token_aqui`.
 
 Sem token, a B3 aparece como demonstração. Cotações em planos gratuitos podem ter atraso de cerca de 15 minutos.
 

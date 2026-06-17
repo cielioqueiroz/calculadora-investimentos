@@ -3,12 +3,14 @@ import { TrendingUp } from 'lucide-react'
 import { useTranslation } from '@/i18n/useTranslation'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { MarketTicker } from '@/components/market/MarketTicker'
 
 export function Header() {
   const { t } = useTranslation()
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/15 bg-background/70 backdrop-blur-xl">
+      <MarketTicker />
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gold-metal text-[hsl(228_11%_5%)] shadow-gold">

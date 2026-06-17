@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # A cada 15 min em dias úteis, durante o pregão da B3 (12h-21h UTC).
+    - cron: '*/15 12-21 * * 1-5'
 
 permissions:
   contents: read
@@ -24,6 +27,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Gera snapshot da B3
+        run: npm run fetch:b3
+        env:
+          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

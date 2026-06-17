@@ -99,4 +99,12 @@
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted));
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-fade-in,
+    .animate-pulse {
+      animation: none;
+    }
+  }
 }

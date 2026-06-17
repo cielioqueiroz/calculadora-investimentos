@@ -1,8 +1,13 @@
 export type RiskLevel = 'low' | 'medium' | 'high'
 
-export type RateBasis = 'fixed' | 'cdi' | 'selic' | 'ipca'
+export type RateBasis = 'fixed' | 'cdi' | 'selic' | 'ipca' | 'custom'
 
-export type InvestmentCategory = 'fixed-income' | 'savings' | 'treasury'
+export type InvestmentCategory =
+  | 'fixed-income'
+  | 'savings'
+  | 'treasury'
+  | 'variable-income'
+  | 'crypto'
 
 export type LiquidityKey = 'daily' | 'maturity'
 
@@ -19,6 +24,8 @@ export interface InvestmentType {
   liquidity: LiquidityKey
   minInvestment: number
   color: string
+  customRate?: number
+  flatTaxRate?: number
 }
 
 export interface MarketRates {
@@ -53,6 +60,8 @@ export interface SimulationResult {
   netInterest: number
   effectiveAnnualRate: number
   months: number
+  inflationRate: number
+  realNetBalance: number
   breakdown: MonthlyPoint[]
 }
 

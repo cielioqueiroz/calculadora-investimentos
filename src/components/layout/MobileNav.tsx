@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Calculator, GitCompareArrows, History, LayoutDashboard } from 'lucide-react'
+import { Calculator, GitCompareArrows, History, LayoutDashboard, LineChart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTranslation } from '@/i18n/useTranslation'
 
@@ -9,6 +9,7 @@ export function MobileNav() {
   const navItems = [
     { to: '/', label: t('nav.home'), icon: LayoutDashboard, end: true },
     { to: '/simulador', label: t('nav.simulator'), icon: Calculator, end: false },
+    { to: '/mercado', label: t('nav.market'), icon: LineChart, end: false },
     { to: '/comparar', label: t('nav.compare'), icon: GitCompareArrows, end: false },
     { to: '/historico', label: t('nav.history'), icon: History, end: false },
   ]

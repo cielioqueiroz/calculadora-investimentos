@@ -4,9 +4,7 @@ import { SimulatorForm } from '@/components/simulator/SimulatorForm'
 import { ResultSummary } from '@/components/simulator/ResultSummary'
 import { GrowthChart } from '@/components/simulator/GrowthChart'
 import { SaveSimulationDialog } from '@/components/simulator/SaveSimulationDialog'
-import { getInvestmentType } from '@/constants/investments'
-import { resolveAnnualRate, simulate } from '@/lib/calculations'
-import { useSimulationStore } from '@/store/useSimulationStore'
+import { computeSimulation, useSimulationStore } from '@/store/useSimulationStore'
 import { useTranslation } from '@/i18n/useTranslation'
 
 export function Simulator() {
@@ -14,21 +12,10 @@ export function Simulator() {
   const marketRates = useSimulationStore((s) => s.marketRates)
   const { t } = useTranslation()
 
-  const result = useMemo(() => {
-    const type = getInvestmentType(params.investmentTypeId)
-    if (!type) return null
-    const annualRate = resolveAnnualRate(type, marketRates)
-    return simulate(
-      {
-        investmentTypeId: params.investmentTypeId,
-        initialAmount: params.initialAmount,
-        monthlyContribution: params.monthlyContribution,
-        months: params.months,
-        annualRate,
-      },
-      type.taxExempt,
-    )
-  }, [params, marketRates])
+  const result = useMemo(
+    () => computeSimulation(params, marketRates),
+    [params, marketRates],
+  )
 
   return (
     <div>

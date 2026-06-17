@@ -101,6 +101,20 @@ function buildInput(
   }
 }
 
+export function computeSimulation(
+  params: SimulationParams,
+  rates: MarketRates,
+): SimulationResult | null {
+  const built = buildInput(params, rates)
+  if (!built) return null
+  return simulate(
+    built.input,
+    built.taxExempt,
+    built.inflationRate,
+    built.flatTaxRate,
+  )
+}
+
 export const useSimulationStore = create<SimulationState>((set, get) => ({
   marketRates: DEFAULT_MARKET_RATES,
   params: DEFAULT_PARAMS,
@@ -124,14 +138,7 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
 
   runSimulation: () => {
     const { params, marketRates } = get()
-    const built = buildInput(params, marketRates)
-    if (!built) return null
-    const result = simulate(
-      built.input,
-      built.taxExempt,
-      built.inflationRate,
-      built.flatTaxRate,
-    )
+    const result = computeSimulation(params, marketRates)
     set({ result })
     return result
   },

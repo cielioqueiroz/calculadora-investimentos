@@ -46,12 +46,22 @@ O ticker da B3 e a página `/mercado` consomem APIs públicas direto do navegado
 | [AwesomeAPI](https://docs.awesomeapi.com.br/) | Câmbio e economias | Não |
 | [brapi.dev](https://brapi.dev) | Ações B3 | Opcional |
 
-As ações da B3 (brapi.dev) exigem um token gratuito. Há duas formas de informá-lo:
+As ações da B3 (brapi.dev) exigem um token gratuito. Como o plano gratuito permite só um ativo por requisição, o site não consulta a brapi a cada visita: um GitHub Action busca as cotações e publica um snapshot estático que todos leem.
 
-- **Na interface**: na página `/mercado`, cole o token no campo "Ativar ao vivo". Ele fica salvo no navegador (localStorage) e funciona inclusive no site publicado, sem rebuild.
-- **No build**: copie `.env.example` para `.env` e preencha `VITE_BRAPI_TOKEN=seu_token_aqui`.
+**Para deixar a B3 ao vivo no site publicado:**
 
-Sem token, a B3 aparece como demonstração. Cotações em planos gratuitos podem ter atraso de cerca de 15 minutos.
+1. Crie um token gratuito em [brapi.dev](https://brapi.dev).
+2. No repositório, vá em Settings > Secrets and variables > Actions > New repository secret, com o nome `BRAPI_TOKEN`.
+3. O workflow de deploy roda a cada push e a cada 15 min em dias úteis (pregão), gerando `public/market/b3.json` com dados reais.
+
+**Para ver ao vivo localmente:** rode o gerador apontando o token e depois o dev server.
+
+```bash
+BRAPI_TOKEN=seu_token npm run fetch:b3   # gera public/market/b3.json
+npm run dev
+```
+
+Sem o snapshot, a B3 aparece como demonstração. Câmbio e cripto já são ao vivo, sem token. Cotações em planos gratuitos podem ter atraso de cerca de 15 minutos.
 
 ## Scripts
 

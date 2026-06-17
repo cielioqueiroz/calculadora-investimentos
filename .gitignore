@@ -18,6 +18,9 @@ coverage
 .env.*
 !.env.example
 
+# Snapshot de mercado gerado no build
+public/market/
+
 # Claude Code
 .claude
 

@@ -1,9 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import {
+  applyInflation,
   incomeTaxRate,
+  iofRate,
   monthlyRateFromAnnual,
   resolveAnnualRate,
   simulate,
+  solveMonthlyContribution,
 } from './calculations'
 import type { InvestmentType, MarketRates, SimulationInput } from '@/types'
 
@@ -73,6 +76,76 @@ describe('incomeTaxRate', () => {
   it('charges 15% above 720 days', () => {
     expect(incomeTaxRate(25)).toBe(0.15)
     expect(incomeTaxRate(60)).toBe(0.15)
+  })
+})
+
+describe('iofRate', () => {
+  it('charges 96% on day 1', () => {
+    expect(iofRate(1)).toBeCloseTo(0.96, 5)
+  })
+  it('charges 3% on day 29', () => {
+    expect(iofRate(29)).toBeCloseTo(0.03, 5)
+  })
+  it('charges nothing from day 30 onward', () => {
+    expect(iofRate(30)).toBe(0)
+    expect(iofRate(60)).toBe(0)
+  })
+})
+
+describe('applyInflation', () => {
+  it('discounts nominal value by accumulated inflation', () => {
+    expect(applyInflation(1100, 10, 12)).toBeCloseTo(1000, 2)
+  })
+  it('returns the nominal value when inflation is zero', () => {
+    expect(applyInflation(1000, 0, 24)).toBe(1000)
+  })
+})
+
+describe('solveMonthlyContribution', () => {
+  it('returns 0 when the initial amount already reaches the target', () => {
+    expect(solveMonthlyContribution(1000, 2000, 12, 10)).toBe(0)
+  })
+  it('solves a positive contribution and round-trips through simulate', () => {
+    const target = 50_000
+    const pmt = solveMonthlyContribution(target, 1000, 60, 8)
+    expect(pmt).toBeGreaterThan(0)
+    const result = simulate(
+      { investmentTypeId: 'test', initialAmount: 1000, monthlyContribution: pmt, months: 60, annualRate: 8 },
+      true,
+    )
+    expect(result.grossBalance).toBeCloseTo(target, 0)
+  })
+  it('handles a zero rate as plain division', () => {
+    expect(solveMonthlyContribution(1200, 0, 12, 0)).toBeCloseTo(100, 5)
+  })
+})
+
+describe('simulate real return', () => {
+  it('fills realNetBalance below nominal when inflation is positive', () => {
+    const result = simulate(
+      { investmentTypeId: 'test', initialAmount: 1000, monthlyContribution: 0, months: 12, annualRate: 12.682503 },
+      true,
+      10,
+    )
+    expect(result.inflationRate).toBe(10)
+    expect(result.realNetBalance).toBeLessThan(result.netBalance)
+  })
+})
+
+describe('custom rate and flat tax', () => {
+  it('resolveAnnualRate returns the provided custom rate', () => {
+    const type = makeType({ rateBasis: 'custom' })
+    expect(resolveAnnualRate(type, rates, 18.5)).toBe(18.5)
+  })
+  it('simulate applies a flat tax instead of the regressive table', () => {
+    const result = simulate(
+      { investmentTypeId: 'test', initialAmount: 1000, monthlyContribution: 0, months: 60, annualRate: 12.682503 },
+      false,
+      0,
+      0.15,
+    )
+    expect(result.taxRate).toBe(0.15)
+    expect(result.taxAmount).toBeCloseTo(result.grossInterest * 0.15, 5)
   })
 })
 

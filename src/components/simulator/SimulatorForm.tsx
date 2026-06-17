@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import {
@@ -134,35 +135,51 @@ export function SimulatorForm() {
           />
         </div>
 
-        {params.mode === 'project' ? (
-          <div className="space-y-2">
-            <Label htmlFor="monthly">{t('simulator.form.monthly')}</Label>
-            <Input
-              id="monthly"
-              type="number"
-              min={0}
-              step={50}
-              value={params.monthlyContribution}
-              onChange={(e) =>
-                setParams({
-                  monthlyContribution: Math.max(0, Number(e.target.value)),
-                })
-              }
-            />
-          </div>
-        ) : (
-          <div className="space-y-2">
-            <Label htmlFor="target">{t('simulator.form.target')}</Label>
-            <Input
-              id="target"
-              type="number"
-              min={0}
-              step={1000}
-              value={params.targetAmount}
-              onChange={(e) => setTarget(Math.max(0, Number(e.target.value)))}
-            />
-          </div>
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          {params.mode === 'project' ? (
+            <motion.div
+              key="monthly"
+              className="space-y-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Label htmlFor="monthly">{t('simulator.form.monthly')}</Label>
+              <Input
+                id="monthly"
+                type="number"
+                min={0}
+                step={50}
+                value={params.monthlyContribution}
+                onChange={(e) =>
+                  setParams({
+                    monthlyContribution: Math.max(0, Number(e.target.value)),
+                  })
+                }
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="target"
+              className="space-y-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Label htmlFor="target">{t('simulator.form.target')}</Label>
+              <Input
+                id="target"
+                type="number"
+                min={0}
+                step={1000}
+                value={params.targetAmount}
+                onChange={(e) => setTarget(Math.max(0, Number(e.target.value)))}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="space-y-2">
           <Label htmlFor="months">{t('simulator.form.period')}</Label>

@@ -15,7 +15,7 @@ export function QuoteCard({ quote, onSimulate }: QuoteCardProps) {
   const up = quote.changePercent >= 0
 
   return (
-    <Card className="animate-fade-in transition-colors hover:border-primary/40">
+    <Card className="h-full transition-colors hover:border-primary/40">
       <CardContent className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">

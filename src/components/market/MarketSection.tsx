@@ -1,6 +1,8 @@
+import { motion } from 'motion/react'
 import { useMarketData } from '@/lib/market/useMarketData'
 import { QuoteCard } from './QuoteCard'
 import { FreshnessBadge } from './FreshnessBadge'
+import { scaleIn, staggerContainer } from '@/lib/animations'
 import type { MarketSource, Quote } from '@/lib/market/types'
 
 interface MarketSectionProps {
@@ -18,7 +20,12 @@ export function MarketSection({ source, title, onSimulate }: MarketSectionProps)
         <h2 className="font-display text-xl font-semibold text-foreground">{title}</h2>
         <FreshnessBadge status={status} updatedAt={updatedAt} />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {loading && status === 'snapshot'
           ? Array.from({ length: 3 }).map((_, i) => (
               <div
@@ -27,9 +34,11 @@ export function MarketSection({ source, title, onSimulate }: MarketSectionProps)
               />
             ))
           : data.map((quote) => (
-              <QuoteCard key={quote.symbol} quote={quote} onSimulate={onSimulate} />
+              <motion.div key={quote.symbol} variants={scaleIn} whileHover={{ y: -4 }}>
+                <QuoteCard quote={quote} onSimulate={onSimulate} />
+              </motion.div>
             ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

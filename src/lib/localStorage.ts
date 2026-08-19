@@ -1,13 +1,55 @@
+import { z } from 'zod'
 import type { SavedSimulation } from '@/types'
 
 const STORAGE_KEY = 'investment-calculator:simulations'
 
+const monthlyPointSchema = z.object({
+  month: z.number(),
+  invested: z.number(),
+  interest: z.number(),
+  grossBalance: z.number(),
+})
+
+const savedSimulationSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  createdAt: z.string(),
+  input: z.object({
+    investmentTypeId: z.string(),
+    initialAmount: z.number(),
+    monthlyContribution: z.number(),
+    months: z.number(),
+    annualRate: z.number(),
+  }),
+  result: z.object({
+    investmentTypeId: z.string(),
+    totalInvested: z.number(),
+    grossBalance: z.number(),
+    grossInterest: z.number(),
+    taxRate: z.number(),
+    taxAmount: z.number(),
+    netBalance: z.number(),
+    netInterest: z.number(),
+    effectiveAnnualRate: z.number(),
+    months: z.number(),
+    inflationRate: z.number(),
+    realNetBalance: z.number(),
+    breakdown: z.array(monthlyPointSchema),
+  }),
+})
+
+// Stored entries are replayed into charts and currency formatting, so anything
+// that does not match the shape is dropped instead of trusted.
 function read(): SavedSimulation[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? (parsed as SavedSimulation[]) : []
+    if (!Array.isArray(parsed)) return []
+    return parsed.flatMap((item) => {
+      const result = savedSimulationSchema.safeParse(item)
+      return result.success ? [result.data] : []
+    })
   } catch {
     return []
   }

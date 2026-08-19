@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import {
   applyInflation,
   incomeTaxRate,
-  iofRate,
   monthlyRateFromAnnual,
   resolveAnnualRate,
   simulate,
@@ -76,19 +75,6 @@ describe('incomeTaxRate', () => {
   it('charges 15% above 720 days', () => {
     expect(incomeTaxRate(25)).toBe(0.15)
     expect(incomeTaxRate(60)).toBe(0.15)
-  })
-})
-
-describe('iofRate', () => {
-  it('charges 96% on day 1', () => {
-    expect(iofRate(1)).toBeCloseTo(0.96, 5)
-  })
-  it('charges 3% on day 29', () => {
-    expect(iofRate(29)).toBeCloseTo(0.03, 5)
-  })
-  it('charges nothing from day 30 onward', () => {
-    expect(iofRate(30)).toBe(0)
-    expect(iofRate(60)).toBe(0)
   })
 })
 

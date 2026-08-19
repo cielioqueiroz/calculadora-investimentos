@@ -70,4 +70,29 @@ describe('localStorage repository', () => {
     localStorage.setItem('investment-calculator:simulations', '{ not json')
     expect(getSimulations()).toEqual([])
   })
+
+  it('drops entries that do not match the expected shape', () => {
+    const valid = makeSimulation('good', '2026-01-01T00:00:00.000Z')
+    localStorage.setItem(
+      'investment-calculator:simulations',
+      JSON.stringify([
+        valid,
+        { id: 'tampered', name: 'x' },
+        { id: 'wrong-types', name: 1, createdAt: null, input: {}, result: [] },
+      ]),
+    )
+    expect(getSimulations().map((s) => s.id)).toEqual(['good'])
+  })
+
+  it('keeps a tampered numeric field from reaching the result', () => {
+    const tampered = {
+      ...makeSimulation('a', '2026-01-01T00:00:00.000Z'),
+      result: { ...makeSimulation('a', '2026-01-01T00:00:00.000Z').result, netBalance: '<img onerror=x>' },
+    }
+    localStorage.setItem(
+      'investment-calculator:simulations',
+      JSON.stringify([tampered]),
+    )
+    expect(getSimulations()).toEqual([])
+  })
 })

@@ -7,14 +7,20 @@ on:
   schedule:
     - cron: '*/15 12-21 * * 1-5'
 
+permissions: {}
+
 jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
       - name: Dispara o deploy hook
+        # O segredo chega por env em vez de interpolado no shell, para que o
+        # seu conteudo nunca vire parte do comando executado.
+        env:
+          DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
         run: |
-          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+          if [ -z "$DEPLOY_HOOK" ]; then
             echo "VERCEL_DEPLOY_HOOK ausente; nada a fazer."
             exit 0
           fi
-          curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" -o /dev/null
+          curl -fsS -X POST "$DEPLOY_HOOK" -o /dev/null

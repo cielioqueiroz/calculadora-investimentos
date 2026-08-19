@@ -26,6 +26,8 @@ const pt = {
 
   'footer.disclaimer': 'Estimativas. Não é recomendação de investimento.',
   'footer.code': 'Código',
+  'footer.createdBy': 'Criado por',
+  'footer.rights': '© {year} Ciélio Queiroz. Todos os direitos reservados.',
 
   'category.fixed-income': 'Renda fixa',
   'category.savings': 'Poupança',
@@ -188,6 +190,8 @@ const en: Dictionary = {
 
   'footer.disclaimer': 'Estimates only. Not investment advice.',
   'footer.code': 'Source',
+  'footer.createdBy': 'Built by',
+  'footer.rights': '© {year} Ciélio Queiroz. All rights reserved.',
 
   'category.fixed-income': 'Fixed income',
   'category.savings': 'Savings',

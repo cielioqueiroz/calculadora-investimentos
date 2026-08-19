@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '@/components/shared/PageHeader'
-import { MarketSection } from '@/components/market/MarketSection'
+import { MarketTable } from '@/components/market/MarketTable'
 import { useSimulationStore } from '@/store/useSimulationStore'
 import { useTranslation } from '@/i18n/useTranslation'
+import type { Quote } from '@/lib/market/types'
+
+// The B3 feed also carries the Ibovespa index, which nobody buys directly.
+const INDEX_SYMBOLS = ['^BVSP']
 
 export function Market() {
   const { t } = useTranslation()
@@ -10,22 +14,39 @@ export function Market() {
   const setParams = useSimulationStore((s) => s.setParams)
   const setMode = useSimulationStore((s) => s.setMode)
 
-  function simulateCrypto() {
+  function openInCalculator(investmentTypeId: string) {
     setMode('project')
-    setParams({ investmentTypeId: 'cripto' })
-    navigate('/simulador')
+    setParams({ investmentTypeId })
+    navigate('/')
   }
 
   return (
-    <div className="space-y-10">
-      <PageHeader title={t('market.title')} description={t('market.subtitle')} />
-      <MarketSection source="forex" title={t('market.economies')} />
-      <MarketSection
-        source="crypto"
-        title={t('market.crypto')}
-        onSimulate={simulateCrypto}
-      />
-      <MarketSection source="b3" title={t('market.b3')} />
+    <div>
+      <PageHeader title={t('market.title')} />
+      <div className="space-y-8">
+        <MarketTable
+          source="forex"
+          title={t('market.economies')}
+          resolveInvestmentId={(quote: Quote) =>
+            quote.symbol === 'USD' ? 'dolar' : null
+          }
+          onSimulate={openInCalculator}
+        />
+        <MarketTable
+          source="crypto"
+          title={t('market.crypto')}
+          resolveInvestmentId={() => 'cripto'}
+          onSimulate={openInCalculator}
+        />
+        <MarketTable
+          source="b3"
+          title={t('market.b3')}
+          resolveInvestmentId={(quote: Quote) =>
+            INDEX_SYMBOLS.includes(quote.symbol) ? 'etf' : 'acoes'
+          }
+          onSimulate={openInCalculator}
+        />
+      </div>
     </div>
   )
 }

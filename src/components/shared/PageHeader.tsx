@@ -1,17 +1,17 @@
+import type { ReactNode } from 'react'
+
 interface PageHeaderProps {
   title: string
-  description?: string
+  action?: ReactNode
 }
 
-export function PageHeader({ title, description }: PageHeaderProps) {
+export function PageHeader({ title, action }: PageHeaderProps) {
   return (
-    <div className="mb-6 space-y-1.5 sm:mb-8">
-      <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+    <div className="mb-5 flex items-center justify-between gap-4">
+      <h1 className="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
         {title}
       </h1>
-      {description && (
-        <p className="mt-2 max-w-2xl text-muted-foreground">{description}</p>
-      )}
+      {action}
     </div>
   )
 }

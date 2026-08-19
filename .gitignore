@@ -34,3 +34,6 @@ public/market/
 *.njsproj
 *.sln
 *.sw?
+
+# Documentos de planejamento locais
+docs/

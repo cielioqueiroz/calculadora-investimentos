@@ -85,23 +85,28 @@ export function SimulatorForm() {
         </div>
 
         {selectedType && (
-          <div className="flex flex-wrap items-center gap-2 rounded-md border border-border/15 bg-background/50 p-3">
-            <Badge variant="default">
-              {t('simulator.badge.perYear', {
-                rate: formatPercent(annualRate),
-              })}
-            </Badge>
-            <Badge variant="outline">
-              {t('simulator.badge.risk', {
-                risk: t(`risk.${selectedType.risk}` as TranslationKey),
-              })}
-            </Badge>
-            {selectedType.taxExempt ? (
-              <Badge variant="success">{t('simulator.badge.exempt')}</Badge>
-            ) : (
-              <Badge variant="secondary">{t('simulator.badge.taxed')}</Badge>
-            )}
-            {selectedType.fgcProtected && <Badge variant="outline">FGC</Badge>}
+          <div className="space-y-2 rounded-md border border-border/15 bg-background/50 p-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="default">
+                {t('simulator.badge.perYear', {
+                  rate: formatPercent(annualRate),
+                })}
+              </Badge>
+              <Badge variant="outline">
+                {t('simulator.badge.risk', {
+                  risk: t(`risk.${selectedType.risk}` as TranslationKey),
+                })}
+              </Badge>
+              {selectedType.taxExempt ? (
+                <Badge variant="success">{t('simulator.badge.exempt')}</Badge>
+              ) : (
+                <Badge variant="secondary">{t('simulator.badge.taxed')}</Badge>
+              )}
+              {selectedType.fgcProtected && <Badge variant="outline">FGC</Badge>}
+            </div>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              {t(`investment.${selectedType.id}.desc` as TranslationKey)}
+            </p>
           </div>
         )}
 

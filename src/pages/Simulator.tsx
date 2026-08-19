@@ -21,17 +21,14 @@ export function Simulator() {
     <div>
       <PageHeader
         title={t('simulator.title')}
-        description={t('simulator.subtitle')}
+        action={<SaveSimulationDialog />}
       />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[360px_1fr]">
-        <div className="space-y-4">
-          <SimulatorForm />
-          <SaveSimulationDialog />
-        </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[340px_1fr]">
+        <SimulatorForm />
 
         {result && (
-          <div className="space-y-6">
+          <div className="space-y-4">
             <ResultSummary result={result} />
             <GrowthChart data={result.breakdown} />
           </div>

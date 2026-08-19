@@ -19,10 +19,7 @@ export function History() {
 
   return (
     <div>
-      <PageHeader
-        title={t('history.title')}
-        description={t('history.subtitle')}
-      />
+      <PageHeader title={t('history.title')} />
 
       {history.length === 0 ? (
         <EmptyState
@@ -31,7 +28,7 @@ export function History() {
           description={t('history.empty.desc')}
           action={
             <Button asChild>
-              <Link to="/simulador">{t('history.empty.action')}</Link>
+              <Link to="/">{t('history.empty.action')}</Link>
             </Button>
           }
         />

@@ -1,14 +1,7 @@
-import { Languages } from 'lucide-react'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { usePreferencesStore } from '@/store/usePreferencesStore'
 import { useTranslation } from '@/i18n/useTranslation'
-import { LOCALES, type Locale } from '@/i18n/translations'
+import { LOCALES } from '@/i18n/translations'
+import { cn } from '@/lib/utils'
 
 export function LanguageSwitcher() {
   const locale = usePreferencesStore((s) => s.locale)
@@ -16,24 +9,28 @@ export function LanguageSwitcher() {
   const { t } = useTranslation()
 
   return (
-    <Select value={locale} onValueChange={(value) => setLocale(value as Locale)}>
-      <SelectTrigger
-        className="h-10 w-auto gap-2 border-none bg-transparent px-2 hover:bg-accent focus:ring-0 focus:ring-offset-0"
-        aria-label={t('language.label')}
-      >
-        <Languages className="h-4 w-4 opacity-70" />
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent align="end">
-        {LOCALES.map((item) => (
-          <SelectItem key={item.code} value={item.code}>
-            <span className="flex items-center gap-2">
-              <span aria-hidden>{item.flag}</span>
-              {item.label}
-            </span>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div
+      role="group"
+      aria-label={t('language.label')}
+      className="flex items-center rounded-md border border-border/25 p-0.5"
+    >
+      {LOCALES.map((item) => (
+        <button
+          key={item.code}
+          type="button"
+          onClick={() => setLocale(item.code)}
+          aria-pressed={locale === item.code}
+          title={item.label}
+          className={cn(
+            'rounded px-2 py-1 text-xs font-medium tabular-nums transition-colors',
+            locale === item.code
+              ? 'bg-primary/15 text-primary'
+              : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          {item.short}
+        </button>
+      ))}
+    </div>
   )
 }

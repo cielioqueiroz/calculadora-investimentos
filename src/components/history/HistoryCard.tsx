@@ -28,7 +28,7 @@ export function HistoryCard({ simulation }: HistoryCardProps) {
 
   function handleOpen() {
     loadFromHistory(simulation)
-    navigate('/simulador')
+    navigate('/')
   }
 
   return (

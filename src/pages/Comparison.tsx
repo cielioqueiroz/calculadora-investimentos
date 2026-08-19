@@ -5,6 +5,7 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { ComparisonControls } from '@/components/comparison/ComparisonControls'
 import { ComparisonChart } from '@/components/comparison/ComparisonChart'
 import { ComparisonTable } from '@/components/comparison/ComparisonTable'
+import { CatalogTable } from '@/components/comparison/CatalogTable'
 import type { ComparisonRow } from '@/components/comparison/types'
 import { INVESTMENT_TYPES } from '@/constants/investments'
 import { resolveAnnualRate, simulate } from '@/lib/calculations'
@@ -43,10 +44,7 @@ export function Comparison() {
 
   return (
     <div>
-      <PageHeader
-        title={t('comparison.title')}
-        description={t('comparison.subtitle')}
-      />
+      <PageHeader title={t('comparison.title')} />
 
       <div className="space-y-6">
         <ComparisonControls />
@@ -63,6 +61,8 @@ export function Comparison() {
             <ComparisonTable rows={sortedRows} />
           </>
         )}
+
+        <CatalogTable />
       </div>
     </div>
   )

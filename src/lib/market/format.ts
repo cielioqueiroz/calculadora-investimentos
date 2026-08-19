@@ -3,9 +3,6 @@ import type { Locale } from '@/i18n/translations'
 const LOCALE_TAG: Record<Locale, string> = {
   pt: 'pt-BR',
   en: 'en-US',
-  es: 'es-ES',
-  zh: 'zh-CN',
-  ru: 'ru-RU',
 }
 
 function tag(locale: string): string {

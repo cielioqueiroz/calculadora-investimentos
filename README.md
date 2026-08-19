@@ -2,7 +2,7 @@
 
 Calculadora de investimentos brasileira. Projeta juros compostos já com IR, IOF e inflação descontados, compara aplicações no mesmo cenário e mostra cotações de câmbio, cripto e B3. Roda inteira no navegador, sem backend.
 
-**rendimento.vercel.app**
+**rendimento-omega.vercel.app**
 
 ![Rendimento](public/og-image.png)
 

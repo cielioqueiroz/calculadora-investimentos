@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { Quote } from '../types'
+import type { Quote, Reading } from '../types'
 
 const PAIRS = ['USD-BRL', 'EUR-BRL', 'GBP-BRL', 'JPY-BRL', 'CNY-BRL']
 
@@ -27,9 +27,9 @@ export function mapAwesomeApi(raw: unknown): Quote[] {
   }))
 }
 
-export async function fetchForex(signal?: AbortSignal): Promise<Quote[]> {
+export async function fetchForex(signal?: AbortSignal): Promise<Reading> {
   const url = `https://economia.awesomeapi.com.br/json/last/${PAIRS.join(',')}`
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`AwesomeAPI ${res.status}`)
-  return mapAwesomeApi(await res.json())
+  return { data: mapAwesomeApi(await res.json()) }
 }

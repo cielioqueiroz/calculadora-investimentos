@@ -42,10 +42,11 @@ export function formatCompact(value: number, locale: string): string {
 export function timeAgo(
   epochMs: number,
   now: number = Date.now(),
-): { unit: 'now' | 's' | 'm' | 'h'; value: number } {
+): { unit: 'now' | 's' | 'm' | 'h' | 'd'; value: number } {
   const seconds = Math.max(0, Math.floor((now - epochMs) / 1000))
   if (seconds < 5) return { unit: 'now', value: 0 }
   if (seconds < 60) return { unit: 's', value: seconds }
   if (seconds < 3600) return { unit: 'm', value: Math.floor(seconds / 60) }
-  return { unit: 'h', value: Math.floor(seconds / 3600) }
+  if (seconds < 86400) return { unit: 'h', value: Math.floor(seconds / 3600) }
+  return { unit: 'd', value: Math.floor(seconds / 86400) }
 }

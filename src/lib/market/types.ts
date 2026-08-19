@@ -12,6 +12,12 @@ export interface Quote {
   sparkline?: number[]
 }
 
+/** What a provider returns: the quotes plus, when known, when they were produced. */
+export interface Reading {
+  data: Quote[]
+  updatedAt?: number
+}
+
 export interface MarketResult<T> {
   data: T
   status: MarketStatus

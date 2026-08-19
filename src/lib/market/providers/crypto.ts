@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { Quote } from '../types'
+import type { Quote, Reading } from '../types'
 
 const COIN_IDS = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple']
 
@@ -27,12 +27,12 @@ export function mapCoinGecko(raw: unknown): Quote[] {
   }))
 }
 
-export async function fetchCrypto(signal?: AbortSignal): Promise<Quote[]> {
+export async function fetchCrypto(signal?: AbortSignal): Promise<Reading> {
   const url =
     'https://api.coingecko.com/api/v3/coins/markets' +
     `?vs_currency=brl&ids=${COIN_IDS.join(',')}` +
     '&order=market_cap_desc&sparkline=true&price_change_percentage=24h'
   const res = await fetch(url, { signal })
   if (!res.ok) throw new Error(`CoinGecko ${res.status}`)
-  return mapCoinGecko(await res.json())
+  return { data: mapCoinGecko(await res.json()) }
 }

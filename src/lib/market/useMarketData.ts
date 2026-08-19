@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import type { MarketResult, MarketSource, Quote } from './types'
+import type { MarketResult, MarketSource, Quote, Reading } from './types'
 import { readCache, writeCache, SNAPSHOTS } from './snapshots'
 import { fetchCrypto } from './providers/crypto'
 import { fetchForex } from './providers/forex'
 import { fetchB3 } from './providers/b3'
 
-const FETCHERS: Record<MarketSource, (signal?: AbortSignal) => Promise<Quote[]>> = {
+const FETCHERS: Record<MarketSource, (signal?: AbortSignal) => Promise<Reading>> = {
   crypto: fetchCrypto,
   forex: fetchForex,
   b3: fetchB3,
 }
+
+/** Beyond this age a reading is labelled delayed instead of live. */
+const LIVE_WINDOW = 15 * 60_000
 
 const INTERVALS: Record<MarketSource, number> = {
   crypto: 30_000,
@@ -38,10 +41,14 @@ export function useMarketData(
       const controller = new AbortController()
       controllerRef.current = controller
       try {
-        const data = await FETCHERS[source](controller.signal)
+        const { data, updatedAt } = await FETCHERS[source](controller.signal)
         if (!active) return
         writeCache(source, data)
-        setResult({ data, status: 'live', updatedAt: Date.now() })
+        // A snapshot carries its own timestamp: only recent data may claim to
+        // be live, otherwise the badge would vouch for a stale price.
+        const stamp = updatedAt ?? Date.now()
+        const fresh = Date.now() - stamp < LIVE_WINDOW
+        setResult({ data, status: fresh ? 'live' : 'stale', updatedAt: stamp })
       } catch {
         if (!active || controller.signal.aborted) return
         const cached = readCache(source)

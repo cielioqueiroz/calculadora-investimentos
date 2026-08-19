@@ -41,4 +41,12 @@ describe('timeAgo', () => {
     const now = 1_000_000
     expect(timeAgo(now - 120_000, now)).toEqual({ unit: 'm', value: 2 })
   })
+  it('returns hours under a day', () => {
+    const now = 100_000_000
+    expect(timeAgo(now - 7_200_000, now)).toEqual({ unit: 'h', value: 2 })
+  })
+  it('reports days instead of a huge hour count', () => {
+    const now = 1_000_000_000
+    expect(timeAgo(now - 3 * 86_400_000, now)).toEqual({ unit: 'd', value: 3 })
+  })
 })

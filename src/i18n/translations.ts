@@ -169,6 +169,7 @@ const pt = {
   'market.unit.s': 's',
   'market.unit.m': 'min',
   'market.unit.h': 'h',
+  'market.unit.d': 'd',
 }
 
 export type TranslationKey = keyof typeof pt
@@ -330,6 +331,7 @@ const en: Dictionary = {
   'market.unit.s': 's',
   'market.unit.m': 'min',
   'market.unit.h': 'h',
+  'market.unit.d': 'd',
 }
 
 export const TRANSLATIONS: Record<Locale, Dictionary> = { pt, en }

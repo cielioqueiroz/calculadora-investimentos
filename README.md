@@ -6,7 +6,7 @@ Calculadora de investimentos brasileira. Projeta juros compostos com imposto de 
 
 ![Rendimento](public/og-image.png)
 
-<sub>React 19 · TypeScript · Vite 8 · Tailwind · Zustand · Recharts · Zod · Vitest · 54 testes · 0 vulnerabilidades</sub>
+<sub>React 19 · TypeScript · Vite 8 · Tailwind · Zustand · Recharts · Zod · Vitest · 56 testes · 0 vulnerabilidades</sub>
 
 > As simulações são estimativas e não constituem recomendação de investimento.
 
@@ -176,7 +176,7 @@ flowchart TD
     T --> F
 ```
 
-O `status` não é detalhe interno: ele vira o selo ao lado do título do bloco, então o usuário sempre sabe se está vendo preço ao vivo, defasado ou de demonstração.
+O `status` não é detalhe interno: ele vira o selo ao lado do título do bloco, então o usuário sempre sabe se está vendo preço ao vivo, defasado ou de demonstração. Um dado só é rotulado "ao vivo" se tiver menos de 15 minutos — o snapshot da B3 carrega o instante em que foi produzido, e é esse carimbo que vale, não a hora em que o navegador o baixou.
 
 | Fonte | Dados | Intervalo | Token |
 | ----- | ----- | --------- | ----- |
@@ -263,7 +263,7 @@ Não tem analytics, telemetria, cookies nem terceiros de rastreamento. Nada que 
 
 ## Testes
 
-54 testes em Vitest, concentrados onde o erro é caro e silencioso: cálculo financeiro, normalização de dados externos e persistência.
+56 testes em Vitest, concentrados onde o erro é caro e silencioso: cálculo financeiro, normalização de dados externos e persistência.
 
 | Arquivo | Cobre |
 | ------- | ----- |

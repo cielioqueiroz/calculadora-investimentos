@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { Quote } from '../types'
+import type { Quote, Reading } from '../types'
 
 const schema = z.object({
   results: z.array(
@@ -25,6 +25,7 @@ export function mapBrapi(raw: unknown): Quote[] {
 }
 
 const publishedSchema = z.object({
+  updatedAt: z.number().optional(),
   quotes: z.array(
     z.object({
       symbol: z.string(),
@@ -36,21 +37,19 @@ const publishedSchema = z.object({
   ),
 })
 
-async function fetchPublished(signal?: AbortSignal): Promise<Quote[]> {
+/**
+ * B3 quotes come only from the snapshot a scheduled workflow commits. The brapi
+ * token stays in that runner, so it never reaches the browser; when the snapshot
+ * is missing the caller degrades to its cached or seeded data.
+ *
+ * The file carries the moment it was produced, which is what the UI must show:
+ * a snapshot from this morning is not a live quote.
+ */
+export async function fetchB3(signal?: AbortSignal): Promise<Reading> {
   const url = `${import.meta.env.BASE_URL}market/b3.json`
   const res = await fetch(url, { signal, cache: 'no-store' })
   if (!res.ok) throw new Error(`b3.json ${res.status}`)
-  const { quotes } = publishedSchema.parse(await res.json())
-  return quotes
-}
-
-/**
- * B3 quotes come only from the snapshot that the build publishes. The brapi
- * token stays server-side in that step, so it never reaches the browser; when
- * the snapshot is missing the caller degrades to its cached or seeded data.
- */
-export async function fetchB3(signal?: AbortSignal): Promise<Quote[]> {
-  const published = await fetchPublished(signal)
-  if (!published.length) throw new Error('b3.json vazio')
-  return published
+  const { quotes, updatedAt } = publishedSchema.parse(await res.json())
+  if (!quotes.length) throw new Error('b3.json vazio')
+  return { data: quotes, updatedAt }
 }

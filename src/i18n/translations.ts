@@ -25,7 +25,6 @@ const pt = {
   'language.label': 'Idioma',
 
   'footer.disclaimer': 'Estimativas. Não é recomendação de investimento.',
-  'footer.code': 'Código',
   'footer.createdBy': 'Criado por',
   'footer.rights': '© {year} Ciélio Queiroz. Todos os direitos reservados.',
 
@@ -189,7 +188,6 @@ const en: Dictionary = {
   'language.label': 'Language',
 
   'footer.disclaimer': 'Estimates only. Not investment advice.',
-  'footer.code': 'Source',
   'footer.createdBy': 'Built by',
   'footer.rights': '© {year} Ciélio Queiroz. All rights reserved.',
 

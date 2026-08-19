@@ -1,6 +1,5 @@
 import { useTranslation } from '@/i18n/useTranslation'
 
-const REPO_URL = 'https://github.com/cielioqueiroz/calculadora-investimentos'
 const PORTFOLIO_URL = 'https://cielio-portfolio.vercel.app'
 
 export function Footer() {
@@ -20,17 +19,6 @@ export function Footer() {
               className="font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
             >
               Ciélio Queiroz
-            </a>
-            <span aria-hidden className="opacity-40">
-              ·
-            </span>
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="underline-offset-4 transition-colors hover:text-primary hover:underline"
-            >
-              {t('footer.code')}
             </a>
           </p>
           <p className="md:text-right">{t('footer.disclaimer')}</p>

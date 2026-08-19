@@ -75,7 +75,7 @@ flowchart TB
 
     subgraph edge["Vercel · CDN"]
         static["dist/ estático"]
-        snapshot["market/b3.json<br/>gerado no build"]
+        snapshot["market/b3.json<br/>versionado no repo"]
     end
 
     subgraph ext["APIs públicas"]
@@ -98,7 +98,7 @@ Três regras sustentam esse desenho:
 
 1. **O cálculo financeiro é puro.** `lib/calculations.ts` não importa React, não lê storage e não faz rede. Recebe números, devolve números. Por isso a suíte de testes cobre a parte que importa sem montar componente nenhum.
 2. **A rede nunca é caminho crítico.** Toda leitura de mercado tem fallback em camadas, e a UI sempre sabe dizer de quando é o dado que está exibindo.
-3. **Nenhum segredo alcança o cliente.** O único token do projeto é consumido em build time, por um script Node, cujo produto é um JSON de preços. Detalhes em [Segurança](#segurança).
+3. **Nenhum segredo alcança o cliente.** O único token do projeto vive no runner do GitHub Actions, e o que sai de lá é um JSON de preços. Detalhes em [Segurança](#segurança).
 
 ## Motor de cálculo
 
@@ -182,7 +182,7 @@ O `status` não é detalhe interno: ele vira o selo ao lado do título do bloco,
 | ----- | ----- | --------- | ----- |
 | [AwesomeAPI](https://docs.awesomeapi.com.br/) | 5 pares de câmbio | 30 s | Não |
 | [CoinGecko](https://www.coingecko.com/) | 5 criptomoedas, com sparkline de 7 d | 30 s | Não |
-| Snapshot próprio | Ibovespa + 11 ações da B3 | 60 s | Gerado no build |
+| Snapshot próprio | Ibovespa + 11 ações da B3 | 60 s | Versionado pelo Actions |
 
 Toda resposta externa passa por um schema Zod antes de virar `Quote`. Um payload com formato inesperado lança e cai no ramo de fallback — a UI nunca renderiza um objeto que não conferiu.
 
@@ -211,19 +211,19 @@ Vite **inlineia toda variável `VITE_*` como texto literal no JavaScript públic
 function kC(){return`CANARIO_SEGREDO_12345`}   // antes: token exposto a qualquer visitante
 ```
 
-O caminho foi eliminado. Hoje o token é `BRAPI_TOKEN`, sem prefixo `VITE_`, lido apenas por `scripts/fetch-b3.mjs` no ambiente de build:
+O caminho foi eliminado. Hoje o token é `BRAPI_TOKEN`, sem prefixo `VITE_`, e vive apenas como segredo do GitHub Actions, lido por `scripts/fetch-b3.mjs` dentro do runner:
 
 ```mermaid
 flowchart LR
-    subgraph build["Build · servidor"]
-        T["BRAPI_TOKEN<br/>variável de ambiente"] --> S["scripts/fetch-b3.mjs"]
+    subgraph ci["GitHub Actions · runner efêmero"]
+        T["BRAPI_TOKEN<br/>segredo do repositório"] --> S["scripts/fetch-b3.mjs"]
         S -->|"HTTPS autenticado"| API["brapi.dev"]
         API --> J["public/market/b3.json<br/>somente preços"]
     end
     subgraph client["Navegador · público"]
         B["bundle + b3.json"]
     end
-    J --> B
+    J -->|"commit + push"| B
     T -.->|"nunca atravessa"| B
 ```
 
@@ -283,23 +283,28 @@ npm test
 
 ```mermaid
 flowchart LR
-    P["push na main"] --> V["Vercel"]
-    C["GitHub Action<br/>cron */15 no pregão"] -->|Deploy Hook| V
-    V --> F["npm run fetch:b3<br/>BRAPI_TOKEN do ambiente"]
-    F --> B["tsc -b && vite build"]
-    B --> D["dist/ na CDN<br/>+ cabeçalhos do vercel.json"]
+    A["GitHub Action<br/>3x ao dia no pregão"] --> F["npm run fetch:b3<br/>BRAPI_TOKEN do runner"]
+    F --> Q{preços<br/>mudaram?}
+    Q -->|não| X["encerra sem commit"]
+    Q -->|sim| C["commit de b3.json"]
+    C --> P["push na main"]
+    D["commit de código"] --> P
+    P --> V["Vercel"]
+    V --> B["tsc -b · vite build"]
+    B --> O["dist/ na CDN<br/>+ cabeçalhos do vercel.json"]
 ```
 
-O snapshot da B3 é gerado a cada build. Como o Vercel só reconstrói em push, um workflow agendado dispara um Deploy Hook a cada 15 minutos durante o pregão para as cotações não envelhecerem.
+O snapshot da B3 é versionado, não gerado no build. Um workflow agendado busca as cotações na abertura, no meio e no fechamento do pregão e só commita quando algum preço mudou; o push resultante dispara o deploy. Assim o token fica restrito ao runner do Actions e o build da Vercel não precisa de segredo nenhum.
 
-Dois segredos, ambos opcionais:
+Um único segredo, opcional:
 
 | Segredo | Onde | Sem ele |
 | ------- | ---- | ------- |
-| `BRAPI_TOKEN` | Variáveis de ambiente da Vercel | A B3 aparece rotulada como demonstração |
-| `VERCEL_DEPLOY_HOOK` | Segredos do repositório no GitHub | O workflow sai sem fazer nada |
+| `BRAPI_TOKEN` | Segredos do repositório no GitHub | O snapshot para de ser atualizado e a B3 exibe o último dado versionado |
 
 O `vercel.json` também reescreve todas as rotas para `index.html`, necessário porque o roteamento é client-side.
+
+O GitHub Pages do repositório continua ligado, mas não hospeda mais o app: `pages-redirect.yml` publica apenas uma página de redirecionamento para a Vercel, preservando a rota, para que endereços antigos não caiam no vazio.
 
 ## Desenvolvimento local
 
@@ -318,7 +323,7 @@ npm run dev
 | `npm run lint` | ESLint |
 | `npm test` | Suíte de testes |
 | `npm run test:watch` | Testes em modo observação |
-| `npm run fetch:b3` | Gera `public/market/b3.json` (requer `BRAPI_TOKEN`) |
+| `npm run fetch:b3` | Regera `public/market/b3.json` (requer `BRAPI_TOKEN`) |
 
 Para cotações reais da B3 em desenvolvimento:
 

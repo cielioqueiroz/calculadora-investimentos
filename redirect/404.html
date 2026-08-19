@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rendimento — novo endereço</title>
+  <link rel="canonical" href="https://rendimento-omega.vercel.app/" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0; url=https://rendimento-omega.vercel.app/" />
+  <script>
+    // Preserva a rota: /calculadora-investimentos/mercado vira /mercado.
+    (function () {
+      var target = 'https://rendimento-omega.vercel.app';
+      var path = location.pathname.replace(/^\/calculadora-investimentos/, '');
+      location.replace(target + path + location.search + location.hash);
+    })();
+  </script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #0A0D16;
+      color: #ECE6D8;
+      font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 2rem;
+    }
+    a { color: #E6C47E; }
+  </style>
+</head>
+<body>
+  <p>
+    A calculadora mudou de endereço &rarr;
+    <a href="https://rendimento-omega.vercel.app/">rendimento-omega.vercel.app</a>
+    <br /><br />
+    <span style="opacity:0.6">This calculator has moved. You are being redirected&hellip;</span>
+  </p>
+</body>
+</html>

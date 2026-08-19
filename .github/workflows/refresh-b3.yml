@@ -1,0 +1,49 @@
+# Gera o snapshot de cotacoes da B3 e commita quando os precos mudam.
+# O BRAPI_TOKEN fica so aqui, no ambiente do runner: o commit carrega
+# apenas os precos, e o push publica o resultado pela Vercel.
+name: Atualiza cotacoes da B3
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Pregao da B3 em UTC (BRT+3): abertura, meio e fechamento.
+    - cron: '10 13 * * 1-5'
+    - cron: '30 16 * * 1-5'
+    - cron: '10 20 * * 1-5'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-b3
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Busca as cotacoes
+        env:
+          BRAPI_TOKEN: ${{ secrets.BRAPI_TOKEN }}
+        run: npm run fetch:b3
+
+      - name: Commita quando houver mudanca de preco
+        run: |
+          if git diff --quiet -- public/market/b3.json; then
+            echo "Nenhuma mudanca no snapshot; nada a commitar."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/market/b3.json
+          git commit -m 'Atualiza cotacoes da B3'
+          git push

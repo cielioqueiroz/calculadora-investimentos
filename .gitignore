@@ -18,8 +18,10 @@ coverage
 .env.*
 !.env.example
 
-# Snapshot de mercado gerado no build
-public/market/
+# Snapshot de mercado: so o b3.json e versionado, gerado pelo workflow.
+# O diretorio nao pode ser ignorado inteiro, senao a excecao abaixo nao vale.
+public/market/*
+!public/market/b3.json
 
 # Claude Code
 .claude

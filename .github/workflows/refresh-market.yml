@@ -1,0 +1,20 @@
+name: Atualiza cotacoes da B3
+
+# O snapshot da B3 e gerado no build da Vercel. Este workflow so dispara
+# um novo deploy durante o pregao para que as cotacoes nao envelhecam.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/15 12-21 * * 1-5'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispara o deploy hook
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+            echo "VERCEL_DEPLOY_HOOK ausente; nada a fazer."
+            exit 0
+          fi
+          curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" -o /dev/null

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { DEFAULT_LOCALE, type Locale } from '@/i18n/translations'
+import { DEFAULT_LOCALE, LOCALES, type Locale } from '@/i18n/translations'
 
 export type Theme = 'light' | 'dark'
 
@@ -43,10 +43,12 @@ export const usePreferencesStore = create<PreferencesState>()(
     {
       name: 'investment-calculator:preferences',
       onRehydrateStorage: () => (state) => {
-        if (state) {
-          applyTheme(state.theme)
-          applyLocale(state.locale)
+        if (!state) return
+        if (!LOCALES.some((item) => item.code === state.locale)) {
+          state.locale = DEFAULT_LOCALE
         }
+        applyTheme(state.theme)
+        applyLocale(state.locale)
       },
     },
   ),

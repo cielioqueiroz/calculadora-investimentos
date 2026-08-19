@@ -14,7 +14,7 @@
       body {
         font-family: 'Inter', sans-serif;
         background:
-          radial-gradient(120% 120% at 88% -15%, rgba(201, 162, 75, 0.22) 0%, transparent 52%),
+          radial-gradient(120% 120% at 88% -15%, rgba(201, 162, 75, 0.18) 0%, transparent 52%),
           #0a0d16;
         color: #ece6d8;
         position: relative;
@@ -24,43 +24,43 @@
         position: absolute; inset: 0; opacity: 0.04; pointer-events: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       }
-      .frame { position: absolute; inset: 22px; border: 1px solid rgba(201, 162, 75, 0.22); border-radius: 22px; }
-      .pad { position: relative; height: 100%; padding: 64px 72px; display: flex; flex-direction: column; }
+      .frame { position: absolute; inset: 22px; border: 1px solid rgba(201, 162, 75, 0.2); border-radius: 22px; }
+      .pad { position: relative; height: 100%; padding: 62px 72px; display: flex; flex-direction: column; }
 
       .brand { display: flex; align-items: center; gap: 16px; }
       .logo {
-        width: 60px; height: 60px; border-radius: 14px;
+        width: 54px; height: 54px; border-radius: 12px;
         background: linear-gradient(135deg, #efd07f 0%, #c9a24b 55%, #8f6f2f 100%);
         display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 10px 30px -8px rgba(201, 162, 75, 0.5);
+        font-family: 'Space Grotesk'; font-weight: 700; font-size: 30px; color: #0a0d16;
+        box-shadow: 0 10px 30px -8px rgba(201, 162, 75, 0.45);
       }
-      .brand-name { font-family: 'Space Grotesk'; font-weight: 700; font-size: 30px; letter-spacing: -0.5px; }
-      .brand-tag { font-size: 15px; color: #9b9686; margin-top: 2px; }
+      .brand-name { font-family: 'Space Grotesk'; font-weight: 600; font-size: 28px; letter-spacing: -0.4px; }
+      .brand-tag { font-size: 15px; color: #9b9686; margin-top: 1px; }
 
-      .badge {
-        display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
-        margin-top: 52px; padding: 8px 14px; border-radius: 999px;
-        background: rgba(201, 162, 75, 0.12); border: 1px solid rgba(201, 162, 75, 0.3);
-        color: #e3c478; font-size: 14px; font-weight: 500;
+      .figure { margin-top: auto; }
+      .figure-label { font-size: 17px; color: #9b9686; }
+      .figure-value {
+        font-family: 'Space Grotesk'; font-weight: 600; font-size: 86px; line-height: 1;
+        letter-spacing: -2px; margin-top: 6px; color: #e6c47e;
+        font-variant-numeric: tabular-nums;
       }
-      .dot { width: 8px; height: 8px; border-radius: 999px; background: #3fb984; box-shadow: 0 0 10px #3fb984; }
+      .figure-note { font-size: 17px; color: #b7b1a1; margin-top: 12px; }
+      .figure-note b { color: #ece6d8; font-weight: 600; }
 
-      h1 {
-        font-family: 'Space Grotesk'; font-weight: 700; font-size: 62px; line-height: 1.04;
-        letter-spacing: -1.5px; margin-top: 22px; max-width: 760px;
-        background: linear-gradient(120deg, #f4ecd8 18%, #e6c47e 60%, #c9a24b 100%);
-        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      .stats {
+        display: flex; gap: 1px; background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+        overflow: hidden; margin-top: 30px; max-width: 720px;
       }
-      .sub { font-size: 22px; color: #b7b1a1; margin-top: 18px; max-width: 680px; line-height: 1.4; }
-
-      .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-      .chip {
-        padding: 9px 16px; border-radius: 10px; font-size: 16px; font-weight: 500;
-        background: #14161f; border: 1px solid rgba(255, 255, 255, 0.07); color: #d8d2c4;
-      }
+      .stat { flex: 1; background: #12151d; padding: 14px 18px; }
+      .stat-k { font-size: 14px; color: #8a8578; }
+      .stat-v { font-size: 22px; font-weight: 600; margin-top: 3px; font-variant-numeric: tabular-nums; }
+      .green { color: #3fb984; }
+      .red { color: #d9774e; }
 
       .ticker {
-        position: absolute; left: 22px; right: 22px; bottom: 22px; height: 56px;
+        position: absolute; left: 22px; right: 22px; bottom: 22px; height: 54px;
         border-top: 1px solid rgba(201, 162, 75, 0.18);
         display: flex; align-items: center; gap: 34px; padding: 0 50px;
         font-variant-numeric: tabular-nums; font-size: 16px;
@@ -80,28 +80,34 @@
     <div class="frame"></div>
     <div class="pad">
       <div class="brand">
-        <div class="logo">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0a0d16" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 17 9 11 13 15 21 7" />
-            <polyline points="14 7 21 7 21 14" />
-          </svg>
-        </div>
+        <div class="logo">R</div>
         <div>
-          <div class="brand-name">InvestCalc</div>
-          <div class="brand-tag">Calculadora de Investimentos</div>
+          <div class="brand-name">Rendimento</div>
+          <div class="brand-tag">Calculadora de investimentos</div>
         </div>
       </div>
 
-      <div class="badge"><span class="dot"></span> Mercado em tempo real: B3, cripto e câmbio</div>
+      <div class="figure">
+        <div class="figure-label">CDB a 102% do CDI · R$ 1.000 + R$ 300 por mês · 24 meses</div>
+        <div class="figure-value">R$ 9.017,61</div>
+        <div class="figure-note">
+          Em valor de hoje <b>R$ 8.257,70</b>, com 4,50% a.a. de inflação descontada
+        </div>
 
-      <h1>Descubra quanto seu dinheiro pode render</h1>
-      <div class="sub">Simulador de juros compostos, retorno real, planejador de meta e cotações ao vivo. Tudo no navegador, sem backend.</div>
-
-      <div class="chips">
-        <div class="chip">Juros compostos + IR/IOF</div>
-        <div class="chip">Retorno real</div>
-        <div class="chip">Planejador de meta</div>
-        <div class="chip">Ticker da B3 ao vivo</div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-k">Investido</div>
+            <div class="stat-v">R$ 8.200,00</div>
+          </div>
+          <div class="stat">
+            <div class="stat-k">Rendimento</div>
+            <div class="stat-v green">R$ 817,61</div>
+          </div>
+          <div class="stat">
+            <div class="stat-k">IR (17,5%)</div>
+            <div class="stat-v red">R$ 173,43</div>
+          </div>
+        </div>
       </div>
 
       <div class="ticker">
@@ -109,7 +115,7 @@
         <div class="tk"><b>PETR4</b><span>38,38</span><span class="down">-0,42%</span></div>
         <div class="tk"><b>BTC</b><span>R$ 334k</span><span class="down">-0,82%</span></div>
         <div class="tk"><b>USD</b><span>5,07</span><span class="down">-0,68%</span></div>
-        <div class="url">cielioqueiroz.github.io/calculadora-investimentos</div>
+        <div class="url">rendimento.vercel.app</div>
       </div>
     </div>
   </body>

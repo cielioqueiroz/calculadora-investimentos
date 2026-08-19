@@ -1,119 +1,54 @@
-# InvestCalc
+# Rendimento
 
-![InvestCalc](public/og-image.png)
+Calculadora de investimentos brasileira. Projeta juros compostos já com IR, IOF e inflação descontados, compara aplicações no mesmo cenário e mostra cotações de câmbio, cripto e B3. Roda inteira no navegador, sem backend.
 
-Calculadora de investimentos brasileira, com simulador de juros compostos, comparador, dados de mercado em tempo real e histórico. Tudo roda no navegador, sem backend, e pode ser hospedado de graça no GitHub Pages.
+**rendimento.vercel.app**
 
-**Acesse:** [cielioqueiroz.github.io/calculadora-investimentos](https://cielioqueiroz.github.io/calculadora-investimentos/)
+![Rendimento](public/og-image.png)
 
 > As simulações são estimativas e não constituem recomendação de investimento.
 
+## O que faz
+
+A calculadora ocupa a página inicial. Você escolhe a aplicação, informa valor inicial, aporte mensal e prazo, e vê o valor final líquido, o rendimento, o imposto e a evolução mês a mês. No modo "planejar meta" o cálculo inverte: dado um valor-alvo, ele resolve o aporte mensal necessário.
+
+Onze aplicações estão cadastradas, da poupança ao Tesouro IPCA+, mais ações, FIIs, ETF, dólar e cripto — estas com retorno esperado editável, já que não existe taxa contratada.
+
+`/comparar` roda o mesmo cenário em várias aplicações e ordena pelo retorno líquido. `/mercado` lista câmbio, cripto e B3 com variação do dia e minigráfico. `/historico` guarda as simulações salvas no `localStorage` do navegador.
+
 ## Capturas
 
-| Início | Mercado em tempo real |
-| ------ | --------------------- |
-| ![Home](screenshots/home_desktop.png) | ![Mercado](screenshots/mercado_desktop.png) |
+| Calculadora | Mercado |
+| ----------- | ------- |
+| ![Calculadora](screenshots/calculadora_desktop.png) | ![Mercado](screenshots/mercado_desktop.png) |
 
-| Simulador | Mobile |
-| --------- | ------ |
-| ![Simulador](screenshots/simulador_desktop.png) | ![Mobile](screenshots/mercado_mobile.png) |
+| Comparar | Mobile |
+| -------- | ------ |
+| ![Comparar](screenshots/comparar_desktop.png) | ![Mobile](screenshots/mercado_mobile.png) |
 
-## Destaques
+## Rodando
 
-- **Simulador completo**: juros compostos com aporte inicial, aportes mensais e prazo, já com IR regressivo, IOF de resgate curto, retorno real (descontando a inflação) e planejador de meta.
-- **Mercado em tempo real**: ticker da B3 no topo, mais uma página `/mercado` com as principais economias do mundo (câmbio), criptomoedas e ações da B3, com mini-gráficos e indicador de frescor dos dados.
-- **Renda fixa e renda variável**: da Poupança ao Tesouro, mais Ações, FIIs, ETF, Dólar e Criptomoedas com retorno esperado editável.
-- **Comparador**: mesmo cenário aplicado a vários investimentos, com gráfico e tabela do melhor retorno líquido.
-- **Histórico** persistido em `localStorage`, **tema claro/escuro** e **5 idiomas** (Português, Inglês, Espanhol, Chinês e Russo).
-- **Animações** suaves com Framer Motion (contadores, entradas em stagger, hover), respeitando `prefers-reduced-motion`.
-
-## Stack
-
-| Camada | Tecnologia |
-| ------ | ---------- |
-| UI | [React 19](https://react.dev) + [TypeScript](https://www.typescriptlang.org) |
-| Build | [Vite](https://vite.dev) |
-| Estilo | [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (Radix UI) |
-| Estado | [Zustand](https://zustand.docs.pmnd.rs) |
-| Rotas | [React Router](https://reactrouter.com) |
-| Gráficos | [Recharts](https://recharts.org) |
-| Animação | [Motion](https://motion.dev) (Framer Motion) |
-| Validação | [Zod](https://zod.dev) |
-| Testes | [Vitest](https://vitest.dev) |
-
-## Como rodar
-
-Pré-requisito: Node.js 20 ou superior.
+Node.js 20 ou superior.
 
 ```bash
-npm install      # instala as dependências
-npm run dev      # desenvolvimento em http://localhost:5173/calculadora-investimentos/
-```
-
-## Dados de mercado
-
-O ticker da B3 e a página `/mercado` consomem APIs públicas direto do navegador, com fallback para um snapshot rotulado quando a API falha ou atinge o limite. A interface nunca quebra offline: ela degrada para o último dado bom e rotula o frescor de cada bloco (ao vivo, atrasado ou demonstração).
-
-| Fonte | Dados | Chave |
-| ----- | ----- | ----- |
-| [CoinGecko](https://www.coingecko.com/) | Criptomoedas | Não |
-| [AwesomeAPI](https://docs.awesomeapi.com.br/) | Câmbio e economias | Não |
-| [brapi.dev](https://brapi.dev) | Ações B3 | Opcional |
-
-As ações da B3 (brapi.dev) exigem um token gratuito. Como o plano gratuito permite só um ativo por requisição, o site não consulta a brapi a cada visita: um GitHub Action busca as cotações e publica um snapshot estático que todos leem.
-
-**Para deixar a B3 ao vivo no site publicado:**
-
-1. Crie um token gratuito em [brapi.dev](https://brapi.dev).
-2. No repositório, vá em Settings > Secrets and variables > Actions > New repository secret, com o nome `BRAPI_TOKEN`.
-3. O workflow de deploy roda a cada push e a cada 15 min em dias úteis (pregão), gerando `public/market/b3.json` com dados reais.
-
-**Para ver ao vivo localmente:** rode o gerador apontando o token e depois o dev server.
-
-```bash
-BRAPI_TOKEN=seu_token npm run fetch:b3   # gera public/market/b3.json
+npm install
 npm run dev
 ```
 
-Sem o snapshot, a B3 aparece como demonstração. Câmbio e cripto já são ao vivo, sem token. Cotações em planos gratuitos podem ter atraso de cerca de 15 minutos.
-
-## Scripts
-
-| Script | Descrição |
+| Script | O que faz |
 | ------ | --------- |
-| `npm run dev` | Servidor de desenvolvimento com HMR |
-| `npm run build` | Type-check (`tsc`) e build de produção |
-| `npm run preview` | Pré-visualiza o build de produção |
-| `npm run lint` | Análise estática com ESLint |
-| `npm test` | Executa a suíte de testes uma vez |
-| `npm run test:watch` | Executa os testes em modo observação |
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Type-check e build de produção |
+| `npm run preview` | Serve o build local |
+| `npm run lint` | ESLint |
+| `npm test` | Suíte de testes |
+| `npm run fetch:b3` | Gera o snapshot de cotações da B3 |
 
-## Estrutura
+## Cálculos
 
-```
-src/
-├── components/
-│   ├── ui/           Componentes base (shadcn/ui)
-│   ├── layout/       Header, ticker, sidebar, footer, tema e idioma
-│   ├── shared/       Reutilizáveis (PageHeader, AnimatedNumber, EmptyState)
-│   ├── simulator/    Formulário, resumo e gráfico do simulador
-│   ├── comparison/   Controles, gráfico e tabela de comparação
-│   ├── market/       Cards, sparkline e seções de mercado
-│   └── history/      Cartão de simulação salva
-├── constants/        Catálogo de investimentos e taxas de mercado
-├── i18n/             Traduções e hook useTranslation
-├── lib/              Cálculos financeiros, animações, localStorage e utilidades
-│   └── market/       Provedores de dados, hook de polling e formatação
-├── pages/            Home, Simulator, Market, Comparison, History
-├── store/            Estado da simulação e preferências (Zustand)
-└── types/            Tipagens compartilhadas
-```
+Juros compostos com capitalização mensal — a taxa anual informada é convertida para a mensal equivalente antes de compor.
 
-## Lógica financeira
-
-Juros compostos com capitalização mensal: a taxa anual é convertida para a equivalente mensal.
-
-Imposto de renda regressivo, aplicado só sobre o rendimento de aplicações tributáveis:
+O imposto de renda segue a tabela regressiva, incidindo apenas sobre o rendimento:
 
 | Prazo | Alíquota |
 | ----- | -------- |
@@ -122,28 +57,61 @@ Imposto de renda regressivo, aplicado só sobre o rendimento de aplicações tri
 | 361 a 720 dias | 17,5% |
 | Acima de 720 dias | 15,0% |
 
-Poupança e LCI/LCA são isentas. Renda variável e cripto usam alíquota fixa de 15%, e FIIs são isentos sobre dividendos.
+Poupança, LCI/LCA e dividendos de FII são isentos. Ações, ETF, dólar e cripto usam alíquota fixa de 15%.
 
-Outros mecanismos:
+Resgates com menos de 30 dias também pagam IOF sobre o rendimento, de 96% no primeiro dia a 0% a partir do trigésimo. O valor final aparece ainda em poder de compra, descontando a inflação anual informada, e o planejador de meta resolve o aporte pela fórmula de anuidade.
 
-- **IOF regressivo** sobre o rendimento em resgates com menos de 30 dias (96% no primeiro dia até 0% a partir do trigésimo).
-- **Retorno real**: o valor final líquido também é apresentado em poder de compra, descontando a inflação anual estimada.
-- **Planejador de meta**: dado um valor-alvo, o app resolve o aporte mensal necessário pela fórmula de anuidade.
+Os testes cobrem esse núcleo — `resolveAnnualRate`, `monthlyRateFromAnnual`, `incomeTaxRate`, `iofRate`, `applyInflation`, `solveMonthlyContribution` e `simulate` — além dos provedores de mercado, da formatação e da persistência.
 
-## Acessibilidade e performance
+## Cotações
 
-- Todas as animações respeitam `prefers-reduced-motion` (via `MotionConfig reducedMotion="user"` e `useReducedMotion`).
-- O ticker pausa no hover e não rola para quem prefere menos movimento.
-- O polling de mercado pausa quando a aba está em segundo plano, para poupar requisições.
+As cotações vêm de APIs públicas chamadas direto do navegador. Quando uma delas falha ou estoura o limite, a interface cai para o último dado bom e rotula o bloco como atrasado ou demonstração, em vez de quebrar.
 
-## Testes
+| Fonte | Dados | Token |
+| ----- | ----- | ----- |
+| [AwesomeAPI](https://docs.awesomeapi.com.br/) | Câmbio | Não |
+| [CoinGecko](https://www.coingecko.com/) | Cripto | Não |
+| [brapi.dev](https://brapi.dev) | Ações da B3 | Sim, gratuito |
 
-A suíte cobre o núcleo financeiro (`resolveAnnualRate`, `monthlyRateFromAnnual`, `incomeTaxRate`, `iofRate`, `applyInflation`, `solveMonthlyContribution`, `simulate`), os provedores de mercado (CoinGecko, AwesomeAPI, brapi), a formatação e a camada de persistência (`localStorage`).
+O plano gratuito da brapi permite um ativo por requisição, então as ações não são buscadas a cada visita: o build gera `public/market/b3.json` uma vez e todo mundo lê esse arquivo. Para ver ao vivo localmente:
 
 ```bash
-npm test
+BRAPI_TOKEN=seu_token npm run fetch:b3
+npm run dev
 ```
 
 ## Deploy
 
-O projeto é estático e está configurado para o GitHub Pages com `base: '/calculadora-investimentos/'`. O workflow em `.github/workflows/deploy.yml` faz o build e publica a cada push na branch principal. Nenhum segredo vai para o bundle: o token da B3 é opcional e fica no `.env` local de cada deploy.
+Hospedado na Vercel. O `vercel.json` roda `fetch:b3` antes do build e reescreve todas as rotas para `index.html`, que é o que uma SPA precisa.
+
+Para que as cotações da B3 não envelheçam entre um push e outro, o workflow `refresh-market.yml` dispara um Deploy Hook a cada 15 minutos durante o pregão. Ele precisa de dois segredos:
+
+- `BRAPI_TOKEN` nas variáveis de ambiente da Vercel, para o build gerar o snapshot;
+- `VERCEL_DEPLOY_HOOK` nos segredos do repositório, com a URL do hook criada em Settings > Git > Deploy Hooks.
+
+Sem eles nada quebra: a B3 aparece rotulada como demonstração e o workflow sai sem fazer nada.
+
+## Stack
+
+React 19 e TypeScript sobre Vite, Tailwind com componentes shadcn/ui (Radix), Zustand para estado, React Router, Recharts nos gráficos, Zod validando as respostas das APIs, Motion nos contadores e Vitest nos testes.
+
+```
+src/
+├── components/
+│   ├── ui/           Base (shadcn/ui)
+│   ├── layout/       Header, ticker, sidebar, footer, tema e idioma
+│   ├── shared/       PageHeader, AnimatedNumber, EmptyState, Guilloche
+│   ├── simulator/    Formulário, resultado e gráfico
+│   ├── comparison/   Controles, gráfico, tabela e catálogo
+│   ├── market/       Ticker, tabela e sparkline
+│   └── history/      Cartão de simulação salva
+├── constants/        Catálogo de aplicações e taxas
+├── i18n/             Traduções (pt, en)
+├── lib/              Cálculos, localStorage, navegação e utilidades
+│   └── market/       Provedores, polling e formatação
+├── pages/            Simulator, Market, Comparison, History
+├── store/            Simulação e preferências (Zustand)
+└── types/            Tipos compartilhados
+```
+
+Toda animação respeita `prefers-reduced-motion`, o ticker pausa no hover e o polling de mercado para quando a aba sai de foco.

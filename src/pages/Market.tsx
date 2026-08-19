@@ -3,6 +3,10 @@ import { PageHeader } from '@/components/shared/PageHeader'
 import { MarketTable } from '@/components/market/MarketTable'
 import { useSimulationStore } from '@/store/useSimulationStore'
 import { useTranslation } from '@/i18n/useTranslation'
+import type { Quote } from '@/lib/market/types'
+
+// The B3 feed also carries the Ibovespa index, which nobody buys directly.
+const INDEX_SYMBOLS = ['^BVSP']
 
 export function Market() {
   const { t } = useTranslation()
@@ -10,12 +14,10 @@ export function Market() {
   const setParams = useSimulationStore((s) => s.setParams)
   const setMode = useSimulationStore((s) => s.setMode)
 
-  function simulateAs(investmentTypeId: string) {
-    return () => {
-      setMode('project')
-      setParams({ investmentTypeId })
-      navigate('/')
-    }
+  function openInCalculator(investmentTypeId: string) {
+    setMode('project')
+    setParams({ investmentTypeId })
+    navigate('/')
   }
 
   return (
@@ -25,17 +27,24 @@ export function Market() {
         <MarketTable
           source="forex"
           title={t('market.economies')}
-          onSimulate={simulateAs('dolar')}
+          resolveInvestmentId={(quote: Quote) =>
+            quote.symbol === 'USD' ? 'dolar' : null
+          }
+          onSimulate={openInCalculator}
         />
         <MarketTable
           source="crypto"
           title={t('market.crypto')}
-          onSimulate={simulateAs('cripto')}
+          resolveInvestmentId={() => 'cripto'}
+          onSimulate={openInCalculator}
         />
         <MarketTable
           source="b3"
           title={t('market.b3')}
-          onSimulate={simulateAs('acoes')}
+          resolveInvestmentId={(quote: Quote) =>
+            INDEX_SYMBOLS.includes(quote.symbol) ? 'etf' : 'acoes'
+          }
+          onSimulate={openInCalculator}
         />
       </div>
     </div>

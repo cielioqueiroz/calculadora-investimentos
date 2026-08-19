@@ -13,15 +13,24 @@ import type { MarketSource, Quote } from '@/lib/market/types'
 interface MarketTableProps {
   source: MarketSource
   title: string
-  onSimulate?: (quote: Quote) => void
+  /** Maps a quote to an investment id, or null when it has no equivalent. */
+  resolveInvestmentId?: (quote: Quote) => string | null
+  onSimulate?: (investmentTypeId: string) => void
 }
 
-export function MarketTable({ source, title, onSimulate }: MarketTableProps) {
+export function MarketTable({
+  source,
+  title,
+  resolveInvestmentId,
+  onSimulate,
+}: MarketTableProps) {
   const { data, status, updatedAt, loading } = useMarketData(source)
   const { t, locale } = useTranslation()
 
   const hasCap = data.some((quote) => quote.marketCap)
   const hasTrend = data.some((quote) => quote.sparkline?.length)
+  const hasAction = Boolean(resolveInvestmentId && onSimulate)
+  const columnCount = 3 + [hasTrend, hasCap, hasAction].filter(Boolean).length
 
   return (
     <section>
@@ -33,61 +42,62 @@ export function MarketTable({ source, title, onSimulate }: MarketTableProps) {
       </div>
 
       <div className="overflow-x-auto rounded-lg border border-border/15 bg-card/40">
-        <table className="w-full min-w-[520px] border-collapse text-sm">
+        <table className="w-full border-collapse text-sm sm:min-w-[520px]">
           <thead>
             <tr className="border-b border-border/15 text-[11px] uppercase tracking-wider text-muted-foreground">
-              <th className="px-3 py-2 text-left font-medium">
+              <th className="w-full px-2 py-2 text-left font-medium sm:px-3">
                 {t('market.col.asset')}
               </th>
-              <th className="px-3 py-2 text-right font-medium">
+              <th className="whitespace-nowrap px-2 py-2 text-right font-medium sm:px-3">
                 {t('market.col.price')}
               </th>
-              <th className="px-3 py-2 text-right font-medium">
+              <th className="whitespace-nowrap px-2 py-2 text-right font-medium sm:px-3">
                 {t('market.col.change')}
               </th>
               {hasTrend && (
-                <th className="hidden px-3 py-2 text-right font-medium sm:table-cell">
+                <th className="hidden whitespace-nowrap px-3 py-2 text-right font-medium sm:table-cell">
                   {t('market.col.trend')}
                 </th>
               )}
               {hasCap && (
-                <th className="hidden px-3 py-2 text-right font-medium lg:table-cell">
+                <th className="hidden whitespace-nowrap px-3 py-2 text-right font-medium lg:table-cell">
                   {t('market.col.cap')}
                 </th>
               )}
-              {onSimulate && <th className="w-10 px-3 py-2" />}
+              {hasAction && <th className="px-3 py-2" />}
             </tr>
           </thead>
           <tbody>
             {loading && status === 'snapshot'
               ? Array.from({ length: 4 }).map((_, i) => (
                   <tr key={i} className="border-b border-border/10 last:border-0">
-                    <td colSpan={6} className="px-3 py-3">
+                    <td colSpan={columnCount} className="px-3 py-3">
                       <span className="block h-4 w-full animate-pulse rounded bg-muted/60" />
                     </td>
                   </tr>
                 ))
               : data.map((quote) => {
                   const up = quote.changePercent >= 0
+                  const investmentId = resolveInvestmentId?.(quote) ?? null
                   return (
                     <tr
                       key={quote.symbol}
                       className="border-b border-border/10 transition-colors last:border-0 hover:bg-accent/40"
                     >
-                      <td className="px-3 py-2.5">
+                      <td className="px-2 py-2.5 sm:px-3">
                         <span className="font-medium text-foreground">
                           {quote.symbol}
                         </span>
-                        <span className="ml-2 text-xs text-muted-foreground">
+                        <span className="block truncate text-xs text-muted-foreground sm:ml-2 sm:inline">
                           {quote.name}
                         </span>
                       </td>
-                      <td className="px-3 py-2.5 text-right tabular-nums text-foreground">
+                      <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums text-foreground sm:px-3">
                         {formatPrice(quote.price, quote.currency, locale)}
                       </td>
                       <td
                         className={cn(
-                          'px-3 py-2.5 text-right tabular-nums',
+                          'whitespace-nowrap px-2 py-2.5 text-right tabular-nums sm:px-3',
                           up ? 'text-success' : 'text-destructive',
                         )}
                       >
@@ -103,22 +113,26 @@ export function MarketTable({ source, title, onSimulate }: MarketTableProps) {
                         </td>
                       )}
                       {hasCap && (
-                        <td className="hidden px-3 py-2.5 text-right tabular-nums text-muted-foreground lg:table-cell">
+                        <td className="hidden whitespace-nowrap px-3 py-2.5 text-right tabular-nums text-muted-foreground lg:table-cell">
                           {quote.marketCap
                             ? formatCompact(quote.marketCap, locale)
                             : '—'}
                         </td>
                       )}
-                      {onSimulate && (
-                        <td className="px-3 py-2.5 text-right">
-                          <button
-                            type="button"
-                            onClick={() => onSimulate(quote)}
-                            title={t('market.simulateOn', { symbol: quote.symbol })}
-                            className="text-xs text-muted-foreground transition-colors hover:text-primary"
-                          >
-                            {t('market.simulate')}
-                          </button>
+                      {hasAction && (
+                        <td className="whitespace-nowrap px-3 py-2.5 text-right">
+                          {investmentId && (
+                            <button
+                              type="button"
+                              onClick={() => onSimulate?.(investmentId)}
+                              title={t('market.simulateOn', {
+                                symbol: quote.symbol,
+                              })}
+                              className="text-xs text-muted-foreground transition-colors hover:text-primary"
+                            >
+                              {t('market.simulate')}
+                            </button>
+                          )}
                         </td>
                       )}
                     </tr>

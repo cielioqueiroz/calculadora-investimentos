@@ -27,9 +27,10 @@ function compactCurrency(value: number): string {
 
 export function ComparisonChart({ rows }: ComparisonChartProps) {
   const { t } = useTranslation()
+  // The deposits are identical across scenarios, so only the earnings differ.
   const data = rows.map((row) => ({
     name: row.type.shortName,
-    netBalance: row.result.netBalance,
+    netInterest: row.result.netInterest,
     color: row.type.color,
   }))
 
@@ -82,12 +83,12 @@ export function ComparisonChart({ rows }: ComparisonChartProps) {
                   t('comparison.chart.net'),
                 ]}
               />
-              <Bar dataKey="netBalance" radius={[6, 6, 0, 0]}>
+              <Bar dataKey="netInterest" radius={[4, 4, 0, 0]} maxBarSize={72}>
                 {data.map((entry) => (
                   <Cell key={entry.name} fill={entry.color} />
                 ))}
                 <LabelList
-                  dataKey="netBalance"
+                  dataKey="netInterest"
                   position="top"
                   formatter={(value) => compactCurrency(Number(value))}
                   fill="hsl(var(--muted-foreground))"

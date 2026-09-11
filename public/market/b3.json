@@ -1,19 +1,19 @@
 {
-  "updatedAt": 1789146040071,
+  "updatedAt": 1789154003622,
   "quotes": [
     {
       "symbol": "^BVSP",
       "name": "Ibovespa",
-      "price": 187399.1,
+      "price": 186514.34,
       "currency": "BRL",
-      "changePercent": -0.46
+      "changePercent": -0.93
     },
     {
       "symbol": "PETR4",
       "name": "Petrobras",
-      "price": 48.95,
+      "price": 48.72,
       "currency": "BRL",
-      "changePercent": -0.35
+      "changePercent": -0.81
     },
     {
       "symbol": "VALE3",
@@ -32,58 +32,58 @@
     {
       "symbol": "BBDC4",
       "name": "Bradesco",
-      "price": 18.53,
+      "price": 18.45,
       "currency": "BRL",
-      "changePercent": 0.27
+      "changePercent": -0.16
     },
     {
       "symbol": "ABEV3",
       "name": "Ambev",
-      "price": 15.72,
+      "price": 15.66,
       "currency": "BRL",
-      "changePercent": -0.13
+      "changePercent": -0.51
     },
     {
       "symbol": "B3SA3",
       "name": "B3",
-      "price": 17.39,
+      "price": 17.28,
       "currency": "BRL",
-      "changePercent": -1.53
+      "changePercent": -2.15
     },
     {
       "symbol": "WEGE3",
       "name": "WEG",
-      "price": 51.61,
+      "price": 51.26,
       "currency": "BRL",
-      "changePercent": -1.07
+      "changePercent": -1.74
     },
     {
       "symbol": "BBAS3",
       "name": "Banco do Brasil",
-      "price": 22.49,
+      "price": 22.35,
       "currency": "BRL",
-      "changePercent": -1.36
+      "changePercent": -1.97
     },
     {
       "symbol": "ITSA4",
       "name": "Itaúsa",
-      "price": 14.22,
+      "price": 14.17,
       "currency": "BRL",
-      "changePercent": 0.35
+      "changePercent": 0
     },
     {
       "symbol": "MGLU3",
       "name": "Magazine Luiza",
-      "price": 5.75,
+      "price": 5.72,
       "currency": "BRL",
-      "changePercent": -3.2
+      "changePercent": -3.7
     },
     {
       "symbol": "PETR3",
       "name": "Petrobras ON",
-      "price": 54.32,
+      "price": 54.01,
       "currency": "BRL",
-      "changePercent": -0.59
+      "changePercent": -1.15
     }
   ]
 }

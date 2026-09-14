@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1789417438824,
+  "updatedAt": 1789427176864,
   "quotes": [
     {
       "symbol": "^BVSP",
       "name": "Ibovespa",
-      "price": 186030.66,
+      "price": 185500.88,
       "currency": "BRL",
-      "changePercent": -0.63
+      "changePercent": -0.91
     },
     {
       "symbol": "PETR4",
@@ -81,9 +81,9 @@
     {
       "symbol": "PETR3",
       "name": "Petrobras ON",
-      "price": 54.61,
+      "price": 54.26,
       "currency": "BRL",
-      "changePercent": 0.17
+      "changePercent": -0.48
     }
   ]
 }

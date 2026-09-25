@@ -1,89 +1,89 @@
 {
-  "updatedAt": 1790291460509,
+  "updatedAt": 1790358982434,
   "quotes": [
     {
       "symbol": "^BVSP",
       "name": "Ibovespa",
-      "price": 183965.9,
+      "price": 183382.66,
       "currency": "BRL",
-      "changePercent": -0.99
+      "changePercent": -0.32
     },
     {
       "symbol": "PETR4",
       "name": "Petrobras",
-      "price": 49.26,
+      "price": 48.09,
       "currency": "BRL",
-      "changePercent": -0.69
+      "changePercent": -2.38
     },
     {
       "symbol": "VALE3",
       "name": "Vale",
-      "price": 70.66,
+      "price": 70.67,
       "currency": "BRL",
-      "changePercent": -1.15
+      "changePercent": 0.01
     },
     {
       "symbol": "ITUB4",
       "name": "Itaú",
-      "price": 41.87,
+      "price": 42.2,
       "currency": "BRL",
-      "changePercent": -1.18
+      "changePercent": 0.79
     },
     {
       "symbol": "BBDC4",
       "name": "Bradesco",
-      "price": 17.78,
+      "price": 17.82,
       "currency": "BRL",
-      "changePercent": -1.39
+      "changePercent": 0.22
     },
     {
       "symbol": "ABEV3",
       "name": "Ambev",
-      "price": 15.34,
+      "price": 15.25,
       "currency": "BRL",
-      "changePercent": 0.26
+      "changePercent": -0.59
     },
     {
       "symbol": "B3SA3",
       "name": "B3",
-      "price": 17.82,
+      "price": 17.93,
       "currency": "BRL",
-      "changePercent": -1.22
+      "changePercent": 0.62
     },
     {
       "symbol": "WEGE3",
       "name": "WEG",
       "price": 50.74,
       "currency": "BRL",
-      "changePercent": -0.82
+      "changePercent": 0
     },
     {
       "symbol": "BBAS3",
       "name": "Banco do Brasil",
-      "price": 21.54,
+      "price": 21.53,
       "currency": "BRL",
-      "changePercent": -2.84
+      "changePercent": -0.05
     },
     {
       "symbol": "ITSA4",
       "name": "Itaúsa",
-      "price": 13.99,
+      "price": 14.03,
       "currency": "BRL",
-      "changePercent": -0.78
+      "changePercent": 0.29
     },
     {
       "symbol": "MGLU3",
       "name": "Magazine Luiza",
-      "price": 6.3,
+      "price": 6.46,
       "currency": "BRL",
-      "changePercent": 2.94
+      "changePercent": 2.54
     },
     {
       "symbol": "PETR3",
       "name": "Petrobras ON",
-      "price": 54.12,
+      "price": 53.11,
       "currency": "BRL",
-      "changePercent": -0.86
+      "changePercent": -1.87
     }
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1795037011176,
+  "updatedAt": 1795042857831,
   "quotes": [
     {
       "symbol": "^BVSP",
       "name": "Ibovespa",
-      "price": 167561.08,
+      "price": 167537.95,
       "currency": "BRL",
-      "changePercent": -1.33
+      "changePercent": -1.34
     },
     {
       "symbol": "PETR4",
@@ -60,9 +60,9 @@
     {
       "symbol": "BBAS3",
       "name": "Banco do Brasil",
-      "price": 14.24,
+      "price": 14.12,
       "currency": "BRL",
-      "changePercent": -2.6
+      "changePercent": -3.42
     },
     {
       "symbol": "ITSA4",

@@ -1,12 +1,12 @@
 {
-  "updatedAt": 1795123666305,
+  "updatedAt": 1795129804324,
   "quotes": [
     {
       "symbol": "^BVSP",
       "name": "Ibovespa",
-      "price": 166335.77,
+      "price": 166376.44,
       "currency": "BRL",
-      "changePercent": -0.72
+      "changePercent": -0.69
     },
     {
       "symbol": "PETR4",
